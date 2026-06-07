@@ -1,0 +1,118 @@
+---
+import mountainImg from '../assets/switzerland_2048x2048.jpg';
+---
+
+<section
+  class="cta"
+  id="contact"
+  style={`background-image: url('${mountainImg.src}')`}
+>
+  <div class="cta-overlay"></div>
+  <div class="container">
+    <div class="cta-inner">
+      <span class="eyebrow eyebrow-light">Get Started</span>
+      <h2 class="section-title section-title-light cta-title">
+        Ready to Reach<br />Your Summit?
+      </h2>
+      <p class="cta-body">
+        The next step is simple &mdash; take the 5-question fit quiz and schedule a free call.
+        No commitments, no obligations. Just a real conversation about what&rsquo;s possible.
+      </p>
+      <div class="cta-actions">
+        <button class="btn btn-gold" id="cta-quiz-btn">
+          Take the Fit Quiz
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+        <a href="mailto:ryan@summittwellness.com" class="btn btn-outline-white">
+          Email Ryan Directly
+        </a>
+      </div>
+      <p class="cta-note">Free 20-minute consultation &middot; $250/mo after &middot; Cancel anytime</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('cta-quiz-btn')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('open-quiz'));
+  });
+</script>
+
+<style>
+  .cta {
+    position: relative;
+    padding: 120px 0;
+    background-size: cover;
+    background-position: center 40%;
+    background-repeat: no-repeat;
+  }
+
+  .cta-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 26, 39, 0.82) 0%,
+      rgba(15, 26, 39, 0.75) 50%,
+      rgba(15, 26, 39, 0.88) 100%
+    );
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    margin-bottom: 22px;
+  }
+
+  .cta-body {
+    font-family: var(--f-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.72);
+    margin-bottom: 40px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .cta-note {
+    font-family: var(--f-body);
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.42);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 600px) {
+    .cta {
+      padding: 88px 0;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 320px;
+      justify-content: center;
+    }
+  }
+</style>

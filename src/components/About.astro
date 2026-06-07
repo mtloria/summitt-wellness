@@ -1,0 +1,278 @@
+---
+import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
+import familyPhoto from '../assets/FullSizeRender_1.jpeg';
+---
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <!-- Photo column -->
+      <div class="about-photos">
+        <div class="photo-main-wrap">
+          <img
+            src={finishPhoto.src}
+            alt="Ryan Summitt at the HYROX Atlanta finish line"
+            class="photo-main"
+            loading="lazy"
+          />
+          <div class="photo-accent-bar"></div>
+        </div>
+        <div class="photo-secondary-wrap">
+          <img
+            src={familyPhoto.src}
+            alt="Ryan with his family"
+            class="photo-secondary"
+            loading="lazy"
+          />
+          <div class="photo-tag">Life Beyond the Gym</div>
+        </div>
+      </div>
+
+      <!-- Content column -->
+      <div class="about-content">
+        <span class="eyebrow">Meet Your Coach</span>
+        <h2 class="section-title about-title">
+          Coaching Built on<br />Clinical Expertise.
+        </h2>
+        <p class="about-body">
+          Ryan Summitt, PT, DPT, OCS, CSCS, has spent nearly two decades helping people move
+          better, get stronger, and stay active for life. His coaching career began in 2008 at
+          DePauw University, where a passion for helping others achieve their fitness goals set
+          everything in motion.
+        </p>
+        <p class="about-body">
+          What sets Ryan apart is his rare combination of clinical and coaching expertise. As a
+          Doctor of Physical Therapy, Board-Certified Orthopedic Specialist, and Certified Strength
+          and Conditioning Specialist, he understands both how to maximize performance <em>and</em>
+          how to navigate injuries safely &mdash; guiding clients from recovery back to the
+          activities they love, with confidence.
+        </p>
+        <p class="about-body">
+          Whether you&rsquo;re an athlete, a golfer, a busy professional, or an active adult,
+          Ryan&rsquo;s approach combines evidence-based training, movement optimization, and
+          sustainable habit-building to help you perform at your best &mdash; for life.
+        </p>
+
+        <!-- Credential badges -->
+        <div class="cred-badges">
+          {['PT, DPT', 'OCS', 'CSCS', 'TPI Certified'].map((c) => (
+            <span class="cred-badge">{c}</span>
+          ))}
+        </div>
+
+        <!-- Personal highlights -->
+        <div class="highlights">
+          <div class="highlight-item">
+            <span class="highlight-number">18+</span>
+            <span class="highlight-label">Years of coaching &amp; clinical experience</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">50+</span>
+            <span class="highlight-label">Miles in a single Grand Canyon R2R2R crossing</span>
+          </div>
+          <div class="highlight-item">
+            <span class="highlight-number">1:15</span>
+            <span class="highlight-label">HYROX Atlanta finish time — he practices what he preaches</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background-color: var(--c-bg);
+    padding: 100px 0;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  /* ─── Photos ─────────────────────────────────── */
+  .about-photos {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .photo-main-wrap {
+    position: relative;
+  }
+
+  .photo-main {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .photo-accent-bar {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 60px;
+    height: 60px;
+    border-top: 4px solid var(--c-secondary);
+    border-left: 4px solid var(--c-secondary);
+    border-radius: 2px 0 0 0;
+    pointer-events: none;
+  }
+
+  .photo-secondary-wrap {
+    position: relative;
+    align-self: flex-end;
+    width: 65%;
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .photo-secondary {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+
+  .photo-tag {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(28, 47, 62, 0.75) 0%, transparent 100%);
+    padding: 12px 12px 10px;
+    font-family: var(--f-ui);
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+
+  /* ─── Content ────────────────────────────────── */
+  .about-content {
+    padding-top: 8px;
+  }
+
+  .about-title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    margin-bottom: 28px;
+  }
+
+  .about-body {
+    font-family: var(--f-body);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--c-text-muted);
+    margin-bottom: 18px;
+  }
+
+  .about-body em {
+    font-style: italic;
+    color: var(--c-text);
+    font-weight: 500;
+  }
+
+  .cred-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 28px 0;
+  }
+
+  .cred-badge {
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-secondary-dark);
+    background: rgba(192, 139, 62, 0.1);
+    border: 1px solid rgba(192, 139, 62, 0.25);
+    padding: 5px 12px;
+    border-radius: 100px;
+  }
+
+  .highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border-top: 1px solid var(--c-border);
+    padding-top: 28px;
+  }
+
+  .highlight-item {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .highlight-number {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 1.875rem;
+    color: var(--c-secondary);
+    line-height: 1;
+    min-width: 56px;
+    flex-shrink: 0;
+  }
+
+  .highlight-label {
+    font-family: var(--f-body);
+    font-size: 0.9rem;
+    color: var(--c-text-muted);
+    line-height: 1.5;
+  }
+
+  /* ─── Responsive ─────────────────────────────── */
+  @media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .about-photos {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .photo-main-wrap {
+      width: 55%;
+    }
+
+    .photo-secondary-wrap {
+      width: 40%;
+      align-self: flex-end;
+      margin-left: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about {
+      padding: 72px 0;
+    }
+
+    .about-photos {
+      flex-direction: column;
+    }
+
+    .photo-main-wrap {
+      width: 100%;
+    }
+
+    .photo-secondary-wrap {
+      width: 70%;
+      align-self: flex-end;
+    }
+  }
+</style>

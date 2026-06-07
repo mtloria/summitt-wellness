@@ -1,0 +1,176 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'Take the Fit Quiz',
+    body: 'Answer 5 quick questions about your goals, activity level, injuries, and challenges. This helps Ryan understand exactly who you are and what you need.',
+  },
+  {
+    number: '02',
+    title: 'Schedule Your Free Consultation',
+    body: "Jump on a 20-minute call with Ryan. No scripts, no sales pitch — just an honest conversation about where you are, where you want to go, and whether this program is the right fit.",
+  },
+  {
+    number: '03',
+    title: 'Start Your Custom Program',
+    body: "Ryan builds your individualized plan and gets you set up in Trainerize. You'll know exactly what to do, why you're doing it, and how to progress from day one.",
+  },
+];
+---
+
+<section class="how" id="how-it-works">
+  <div class="container">
+    <div class="how-inner">
+      <div class="how-header">
+        <span class="eyebrow eyebrow-light">The Process</span>
+        <h2 class="section-title section-title-light how-title">
+          Simple. Personal.<br />Built for You.
+        </h2>
+        <p class="how-sub">
+          From first contact to your first workout &mdash; here&rsquo;s what to expect.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        {steps.map((step, i) => (
+          <div class="step-card">
+            <div class="step-top">
+              <span class="step-number">{step.number}</span>
+              {i < steps.length - 1 && (
+                <span class="step-connector" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2">
+                    <polyline points="9,18 15,12 9,6"></polyline>
+                  </svg>
+                </span>
+              )}
+            </div>
+            <h3 class="step-title">{step.title}</h3>
+            <p class="step-body">{step.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="how-cta">
+        <button class="btn btn-gold" id="how-quiz-btn">
+          Take the Fit Quiz
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('how-quiz-btn')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('open-quiz'));
+  });
+</script>
+
+<style>
+  .how {
+    background-color: var(--c-primary);
+    padding: 100px 0;
+  }
+
+  .how-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .how-header {
+    max-width: 560px;
+    margin-bottom: 64px;
+  }
+
+  .how-title {
+    font-size: clamp(2.25rem, 4vw, 3.125rem);
+    margin-bottom: 18px;
+  }
+
+  .how-sub {
+    font-family: var(--f-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 56px;
+    position: relative;
+  }
+
+  .step-card {
+    padding: 32px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.04);
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .step-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .step-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .step-number {
+    font-family: var(--f-display);
+    font-weight: 900;
+    font-size: 3rem;
+    color: var(--c-secondary);
+    line-height: 1;
+    opacity: 0.85;
+  }
+
+  .step-connector {
+    margin-left: auto;
+    display: none;
+  }
+
+  .step-title {
+    font-family: var(--f-ui);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: #ffffff;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .step-body {
+    font-family: var(--f-body);
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.62);
+  }
+
+  .how-cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 760px) {
+    .how {
+      padding: 72px 0;
+    }
+
+    .steps-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+</style>

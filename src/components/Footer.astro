@@ -1,0 +1,201 @@
+---
+import logoImg from '../assets/Horizontal Logo Transparent.png';
+
+const navLinks = [
+  { label: 'About', href: '#about' },
+  { label: 'Coaching', href: '#coaching' },
+  { label: 'FAQ', href: '#faq' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img
+          src={logoImg.src}
+          alt="Summitt Wellness"
+          class="footer-logo"
+        />
+        <p class="footer-tagline">
+          Powered by evidence.<br />Built for longevity.
+        </p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <p class="footer-nav-label">Navigation</p>
+        <ul>
+          {navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="footer-link">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="footer-contact">
+        <p class="footer-nav-label">Get in Touch</p>
+        <a href="mailto:ryan@summittwellness.com" class="footer-link footer-email">
+          ryan@summittwellness.com
+        </a>
+        <div class="footer-creds">
+          {['PT, DPT', 'OCS', 'CSCS', 'TPI'].map((c) => (
+            <span class="footer-cred">{c}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">
+        &copy; {year} Summitt Wellness. All rights reserved.
+      </p>
+      <p class="footer-disclaimer">
+        The information on this site is for general educational purposes and is not a substitute for professional medical advice.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--c-primary-dark);
+    padding: 72px 0 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+
+  /* Brand */
+  .footer-logo {
+    height: 42px;
+    width: auto;
+    filter: invert(1) brightness(2);
+    opacity: 0.85;
+    margin-bottom: 16px;
+  }
+
+  .footer-tagline {
+    font-family: var(--f-ui);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* Nav col */
+  .footer-nav-label {
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.675rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 16px;
+  }
+
+  .footer-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-link {
+    font-family: var(--f-body);
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.62);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-link:hover {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  /* Contact col */
+  .footer-email {
+    display: block;
+    margin-bottom: 20px;
+    word-break: break-all;
+  }
+
+  .footer-creds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .footer-cred {
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(192, 139, 62, 0.75);
+    background: rgba(192, 139, 62, 0.1);
+    border: 1px solid rgba(192, 139, 62, 0.2);
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  /* Bottom */
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-copy {
+    font-family: var(--f-body);
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .footer-disclaimer {
+    font-family: var(--f-body);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.22);
+    max-width: 460px;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .footer-top {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+
+    .footer-disclaimer {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+    }
+  }
+</style>
