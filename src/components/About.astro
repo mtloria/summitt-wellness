@@ -1,6 +1,5 @@
 ---
 import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
-import familyPhoto from '../assets/FullSizeRender_1.jpeg';
 ---
 
 <section class="about" id="about">
@@ -17,15 +16,6 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
           />
           <div class="photo-accent-bar"></div>
         </div>
-        <div class="photo-secondary-wrap">
-          <img
-            src={familyPhoto.src}
-            alt="Ryan with his family"
-            class="photo-secondary"
-            loading="lazy"
-          />
-          <div class="photo-tag">Life Beyond the Gym</div>
-        </div>
       </div>
 
       <!-- Content column -->
@@ -35,22 +25,25 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
           Coaching Built on<br />Clinical Expertise.
         </h2>
         <p class="about-body">
-          Ryan Summitt, PT, DPT, OCS, CSCS, has spent nearly two decades helping people move
-          better, get stronger, and stay active for life. His coaching career began in 2008 at
-          DePauw University, where a passion for helping others achieve their fitness goals set
-          everything in motion.
+          Ryan Summitt, PT, DPT, OCS, CSCS, is a fitness coach, physical therapist, and strength
+          and conditioning specialist with nearly two decades of experience helping people move
+          better, get stronger, and stay active for life. His coaching career began in 2008 while
+          studying at DePauw University, where he worked as a personal trainer and developed a
+          passion for helping others achieve their fitness goals.
         </p>
         <p class="about-body">
-          What sets Ryan apart is his rare combination of clinical and coaching expertise. As a
-          Doctor of Physical Therapy, Board-Certified Orthopedic Specialist, and Certified Strength
-          and Conditioning Specialist, he understands both how to maximize performance <em>and</em>
-          how to navigate injuries safely &mdash; guiding clients from recovery back to the
-          activities they love, with confidence.
+          What sets Ryan apart is his unique combination of fitness coaching and clinical expertise.
+          As a Doctor of Physical Therapy, Board-Certified Orthopedic Clinical Specialist (OCS), and
+          Certified Strength and Conditioning Specialist (CSCS), he understands both how to maximize
+          performance and how to navigate injuries safely. For the past 12 years, Ryan has focused on
+          helping active individuals bridge the gap between rehabilitation and fitness, guiding them
+          from injury recovery back to the activities they love with confidence.
         </p>
         <p class="about-body">
-          Whether you&rsquo;re an athlete, a golfer, a busy professional, or an active adult,
-          Ryan&rsquo;s approach combines evidence-based training, movement optimization, and
-          sustainable habit-building to help you perform at your best &mdash; for life.
+          Ryan believes that fitness should enhance every aspect of life, not just performance in the
+          gym. Whether working with athletes, busy professionals, or active adults, his approach
+          combines evidence-based training, movement optimization, and sustainable habits to help
+          clients build strength, resilience, and longevity.
         </p>
 
         <!-- Credential badges -->
@@ -60,20 +53,18 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
           ))}
         </div>
 
-        <!-- Personal highlights -->
+        <!-- Highlights -->
         <div class="highlights">
           <div class="highlight-item">
             <span class="highlight-number">18+</span>
-            <span class="highlight-label">Years of coaching &amp; clinical experience</span>
+            <span class="highlight-label">Years of coaching and clinical experience</span>
           </div>
-          <div class="highlight-item">
-            <span class="highlight-number">50+</span>
-            <span class="highlight-label">Miles in a single Grand Canyon R2R2R crossing</span>
-          </div>
-          <div class="highlight-item">
-            <span class="highlight-number">1:15</span>
-            <span class="highlight-label">HYROX Atlanta finish time — he practices what he preaches</span>
-          </div>
+          <p class="highlight-personal">
+            Outside of coaching, Ryan enjoys spending time with his wife and three children, caring
+            for their two Labrador Retrievers, and pursuing his own athletic challenges — from trail
+            races and a Grand Canyon Rim-to-Rim-to-Rim crossing to HYROX competitions and improving
+            his golf game.
+          </p>
         </div>
       </div>
     </div>
@@ -96,9 +87,6 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
   /* ─── Photos ─────────────────────────────────── */
   .about-photos {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
   }
 
   .photo-main-wrap {
@@ -126,39 +114,6 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
     pointer-events: none;
   }
 
-  .photo-secondary-wrap {
-    position: relative;
-    align-self: flex-end;
-    width: 65%;
-    margin-right: 0;
-    margin-left: auto;
-  }
-
-  .photo-secondary {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    object-position: center;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-md);
-  }
-
-  .photo-tag {
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(28, 47, 62, 0.75) 0%, transparent 100%);
-    padding: 12px 12px 10px;
-    font-family: var(--f-ui);
-    font-weight: 500;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.8);
-    border-radius: 0 0 var(--radius) var(--radius);
-  }
-
   /* ─── Content ────────────────────────────────── */
   .about-content {
     padding-top: 8px;
@@ -175,12 +130,6 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
     line-height: 1.8;
     color: var(--c-text-muted);
     margin-bottom: 18px;
-  }
-
-  .about-body em {
-    font-style: italic;
-    color: var(--c-text);
-    font-weight: 500;
   }
 
   .cred-badges {
@@ -206,7 +155,7 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
   .highlights {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
     border-top: 1px solid var(--c-border);
     padding-top: 28px;
   }
@@ -234,6 +183,14 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
     line-height: 1.5;
   }
 
+  .highlight-personal {
+    font-family: var(--f-body);
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--c-text-muted);
+    font-style: italic;
+  }
+
   /* ─── Responsive ─────────────────────────────── */
   @media (max-width: 900px) {
     .about-grid {
@@ -241,38 +198,15 @@ import familyPhoto from '../assets/FullSizeRender_1.jpeg';
       gap: 48px;
     }
 
-    .about-photos {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-
-    .photo-main-wrap {
-      width: 55%;
-    }
-
-    .photo-secondary-wrap {
-      width: 40%;
-      align-self: flex-end;
-      margin-left: 0;
+    .photo-main {
+      aspect-ratio: 3 / 2;
+      object-position: center 30%;
     }
   }
 
   @media (max-width: 600px) {
     .about {
       padding: 72px 0;
-    }
-
-    .about-photos {
-      flex-direction: column;
-    }
-
-    .photo-main-wrap {
-      width: 100%;
-    }
-
-    .photo-secondary-wrap {
-      width: 70%;
-      align-self: flex-end;
     }
   }
 </style>

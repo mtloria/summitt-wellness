@@ -4,9 +4,9 @@ import Nav from '../components/Nav';
 import Hero from '../components/Hero.astro';
 import CredentialsBar from '../components/CredentialsBar.astro';
 import About from '../components/About.astro';
+import TeamSection from '../components/TeamSection.astro';
 import WhatIncluded from '../components/WhatIncluded.astro';
 import HowItWorks from '../components/HowItWorks.astro';
-import ActionGallery from '../components/ActionGallery.astro';
 import FAQ from '../components/FAQ';
 import ContactCTA from '../components/ContactCTA.astro';
 import Footer from '../components/Footer.astro';
@@ -23,9 +23,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <Hero />
     <CredentialsBar />
     <About />
+    <TeamSection />
     <WhatIncluded />
     <HowItWorks />
-    <ActionGallery />
     <FAQ client:visible />
     <ContactCTA />
   </main>

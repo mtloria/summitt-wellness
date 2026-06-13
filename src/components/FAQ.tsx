@@ -11,46 +11,65 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../styles/theme';
 
-const FAQS = [
+type FAQItem = {
+  q: string;
+  a: string | string[];
+  intro?: string;
+};
+
+const FAQS: FAQItem[] = [
   {
     q: 'How is this different from other online fitness programs?',
-    a: "Unlike generic programs, every client receives an individualized plan based on their goals, fitness level, injury history, schedule, and available equipment. Ryan's dual background as both a fitness coach and Doctor of Physical Therapy means you get performance training and movement expertise in one — helping you get stronger, move better, and stay active long-term.",
+    a: "Unlike generic workout programs, every client receives an individualized training plan based on their goals, fitness level, injury history, schedule, and available equipment. As both a fitness coach and physical therapist, I combine performance training with movement and injury expertise to help you get stronger, move better, and stay active long-term.",
   },
   {
     q: "What's included in my coaching program?",
-    a: 'Your program includes individualized workouts for every day of the week, goal setting and progress tracking, customized rehab and prehab exercises, nutrition guidance and habit coaching, exercise demonstration videos with detailed instructions for every movement, unlimited communication through the Trainerize app, and ongoing program adjustments as you progress.',
+    intro: "Your coaching program includes:",
+    a: [
+      'Individualized workouts for every day of the week',
+      'Goal setting and progress tracking',
+      'Customized rehab and prehab exercises based on your initial consultation',
+      'Nutrition guidance and habit coaching',
+      'Exercise demonstration videos and detailed instructions for every movement',
+      'Unlimited communication and support through the Trainerize app',
+      'Ongoing program adjustments based on your progress and feedback',
+    ],
   },
   {
     q: 'Does this include in-person training sessions?',
-    a: "This is a fully online coaching program delivered through the Trainerize app. All workouts, progress tracking, exercise instruction, and coaching support are provided remotely. The biggest advantage: you get structured guidance for every workout — not just the one hour you'd spend with a trainer. This leads to greater consistency and better long-term results because the program is built around your schedule and environment.",
+    a: "This is a fully online coaching program delivered through the Trainerize app. While we will connect during your initial consultation and communicate regularly throughout the coaching process, all workouts, progress tracking, exercise instruction, and coaching support are provided remotely. One of the biggest advantages of online coaching is that it provides guidance for every workout, not just the one hour you spend with a trainer. This leads to greater consistency and better long-term results because the program is built around your schedule and actual environment.",
   },
   {
     q: 'How does the Trainerize app work?',
-    a: "Trainerize is your central coaching platform. You'll receive your workouts directly in the app, track completed sessions, log progress, communicate with Ryan, and access exercise videos and instructions. It makes it easy to stay accountable and know exactly what to do each day — whether you're at the gym, at home, or traveling.",
+    a: "Trainerize serves as your central coaching platform. You'll receive your workouts directly in the app, track completed sessions, log progress, communicate directly with your coach, and access exercise videos and instructions. The app makes it easy to stay accountable and know exactly what to do each day.",
   },
   {
     q: 'What if I have a previous injury or current aches and pains?',
-    a: "This is exactly where Ryan's physical therapy background makes all the difference. During your initial consultation, he'll review your injury history, movement limitations, training experience, and goals. From there, he designs a program that helps you continue progressing while addressing areas that may be limiting your performance or increasing your injury risk. Personalized rehab and prehab exercises are incorporated as needed.",
+    a: "During our initial consultation, we'll review your injury history, movement limitations, training experience, and goals. Using that information, I'll design a program that helps you continue progressing while addressing areas that may be limiting your performance or increasing your risk of injury. Personalized rehab and prehab exercises will be incorporated as needed to help you move and perform at your best.",
   },
   {
     q: 'How often can I communicate with my coach?',
-    a: "You have unlimited communication through the Trainerize app. Whether you have questions about an exercise, need modifications, want feedback on your training, or simply need accountability, you'll have direct access to Ryan throughout your program. He's responsive and genuinely invested in your progress.",
+    a: "You have unlimited communication through the Trainerize app. Whether you have questions about an exercise, need modifications, want feedback on your training, or simply need accountability, you'll have direct access to coaching support throughout your program.",
   },
   {
     q: 'Do you provide nutrition coaching?',
-    a: "Yes — nutrition guidance is included as part of your coaching program. While Ryan is not a Registered Dietitian, he helps you develop practical nutrition habits that support your goals, whether that involves improving body composition, enhancing performance, supporting recovery, or building a healthier lifestyle. For clients with complex nutritional needs, he's happy to collaborate with a qualified RD.",
+    a: "Yes. Nutrition guidance is included as part of your coaching program. While I am not a Registered Dietitian, I can help you develop practical nutrition habits that support your goals, whether that involves improving body composition, enhancing performance, supporting recovery, or building a healthier lifestyle. For clients with more complex nutritional needs, I'm happy to collaborate with a qualified RD.",
+  },
+  {
+    q: 'Can the program be customized for my specific sport or goal?',
+    a: "Absolutely. Every program is built around your individual goals. Whether your focus is building strength, improving body composition, enhancing athletic performance, returning from injury, improving golf performance, preparing for a specific event, or simply living a healthier, more active lifestyle, your program will evolve as you progress.",
   },
   {
     q: 'Do I need gym experience or equipment to get started?',
-    a: "Not at all. Whether you're brand new to exercise or an experienced athlete, your program will be tailored to your current fitness level and the equipment you have available. Every exercise includes demonstration videos and clear instructions, so you'll always know exactly how to perform each movement safely and effectively.",
+    a: "Not at all. Whether you're new to exercise or an experienced athlete, your program will be tailored to your current fitness level. Every exercise includes demonstration videos and clear instructions, so you'll always know exactly how to perform each movement safely and effectively.",
   },
   {
     q: 'What does coaching cost?',
-    a: "Ryan's coaching program is $250/month. Rather than list pricing without context, he prefers to connect first — a free 20-minute call lets you both determine if it's the right fit before any commitment is made. Take the quiz to get started.",
+    a: "Coaching is personalized to each client, and pricing is something we discuss during the initial consultation. The goal is to get to know you first, understand your situation, and make sure the program is the right fit before anything else. Take the quiz to start the conversation.",
   },
   {
     q: 'How do I get started?',
-    a: "It starts with a short quiz to help Ryan understand your goals and background. From there, you'll schedule a free 20-minute consultation where you'll talk through your fitness history, lifestyle, schedule, and equipment. Ryan will then build your individualized program and get you set up in Trainerize — ready to train with a clear plan and real support.",
+    a: "The process begins with an initial consultation where we'll discuss your goals, training history, injury history, lifestyle, schedule, and available equipment. From there, I'll build your individualized program and get you set up in Trainerize so you can begin training with confidence and a clear plan for success.",
   },
 ];
 
@@ -106,11 +125,11 @@ function FAQContent() {
                 mb: 4,
               }}
             >
-              Can&rsquo;t find your answer? Reach out directly — Ryan answers every message personally.
+              Can&rsquo;t find your answer? Reach out directly. Ryan answers every message personally.
             </Typography>
             <Box
               component="a"
-              href="mailto:ryan@summittwellness.com"
+              href="mailto:Ryan@summittwellness.com"
               sx={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -153,7 +172,25 @@ function FAQContent() {
                   >
                     {faq.q}
                   </AccordionSummary>
-                  <AccordionDetails>{faq.a}</AccordionDetails>
+                  <AccordionDetails>
+                    {Array.isArray(faq.a) ? (
+                      <Box>
+                        {faq.intro && (
+                          <Box sx={{ mb: 1.5 }}>{faq.intro}</Box>
+                        )}
+                        <Box
+                          component="ul"
+                          sx={{ m: 0, pl: 2.5, '& li': { mb: 0.75 } }}
+                        >
+                          {(faq.a as string[]).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </Box>
+                      </Box>
+                    ) : (
+                      faq.a
+                    )}
+                  </AccordionDetails>
                 </Accordion>
               );
             })}

@@ -1,0 +1,306 @@
+---
+import ryanPhoto from '../assets/IMG_1857.jpeg';
+
+const COACHES = [
+  {
+    name: 'Ryan Summitt',
+    credentials: 'PT, DPT, OCS, CSCS, TPI',
+    role: 'Lead Coach & Founder',
+    photo: ryanPhoto.src,
+    tags: ['Strength & Conditioning', 'Orthopedic PT', 'Golf Performance', 'Trail Running & HYROX'],
+    bio: 'Nearly two decades of coaching and clinical experience, helping athletes, professionals, and active adults move better, get stronger, and stay active for life.',
+    comingSoon: false,
+  },
+  {
+    name: 'Dr. Courtney Summitt',
+    credentials: 'PT, DPT, PMP, RYT-200',
+    role: 'Doctor of Physical Therapy',
+    photo: null as string | null,
+    tags: ['Pelvic Health', 'Pre/Postpartum Care', 'Yoga & Movement', 'Orthopedic PT'],
+    bio: 'A licensed Doctor of Physical Therapy with clinical experience in orthopedic rehabilitation, pelvic health, pregnancy and postpartum care, and functional movement training. Certified yoga instructor (RYT-200) and Project Management Professional (PMP).',
+    comingSoon: true,
+  },
+];
+---
+
+<section class="team" id="team">
+  <div class="container">
+    <div class="team-header">
+      <span class="eyebrow">The Coaches</span>
+      <h2 class="section-title team-title">
+        Meet the Team.
+      </h2>
+      <p class="team-sub">
+        Diverse backgrounds. One shared standard: evidence-based, individualized coaching
+        that meets you where you are and gets you where you want to go.
+      </p>
+    </div>
+
+    <div class="coaches-grid">
+      {COACHES.map((coach) => (
+        <article class={`coach-card${coach.comingSoon ? ' coach-card--soon' : ''}`}>
+
+          <!-- Photo -->
+          <div class="coach-photo-wrap">
+            {coach.photo ? (
+              <img
+                src={coach.photo}
+                alt={`${coach.name}, ${coach.role}`}
+                class="coach-photo"
+                loading="lazy"
+              />
+            ) : (
+              <div class="coach-placeholder" aria-hidden="true">
+                <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="240" height="300" fill="#DDD8D0"/>
+                  <circle cx="120" cy="105" r="54" fill="#C4BAB0"/>
+                  <path d="M0 300 C0 230 48 195 120 195 C192 195 240 230 240 300Z" fill="#C4BAB0"/>
+                </svg>
+              </div>
+            )}
+            {coach.comingSoon && (
+              <div class="soon-overlay">
+                <span class="soon-badge">Coming Soon</span>
+              </div>
+            )}
+          </div>
+
+          <!-- Info -->
+          <div class="coach-info">
+            <div class="coach-header">
+              <h3 class="coach-name">{coach.name}</h3>
+              <p class="coach-creds">{coach.credentials}</p>
+              <span class="role-badge">{coach.role}</span>
+            </div>
+
+            <div class="coach-tags">
+              {coach.tags.map((tag) => (
+                <span class="coach-tag">{tag}</span>
+              ))}
+            </div>
+
+            <p class="coach-bio">{coach.bio}</p>
+
+            {!coach.comingSoon && (
+              <button
+                class="btn btn-outline-dark coach-cta"
+                id="team-ryan-btn"
+              >
+                Work with Ryan
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="9,18 15,12 9,6"></polyline>
+                </svg>
+              </button>
+            )}
+          </div>
+
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('team-ryan-btn')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('open-quiz'));
+  });
+</script>
+
+<style>
+  .team {
+    background-color: var(--c-surface);
+    padding: 100px 0;
+  }
+
+  .team-header {
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+
+  .team-title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    margin-bottom: 18px;
+  }
+
+  .team-sub {
+    font-family: var(--f-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--c-text-muted);
+    text-wrap: pretty;
+  }
+
+  /* ─── Grid ────────────────────────────────────── */
+  .coaches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 28px;
+  }
+
+  /* ─── Card ────────────────────────────────────── */
+  .coach-card {
+    background: var(--c-bg);
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.22s ease, transform 0.22s ease;
+  }
+
+  .coach-card:not(.coach-card--soon):hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
+  }
+
+  .coach-card--soon {
+    opacity: 0.9;
+  }
+
+  /* ─── Photo ───────────────────────────────────── */
+  .coach-photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--c-border);
+  }
+
+  .coach-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    transition: transform 0.4s ease;
+  }
+
+  .coach-card:not(.coach-card--soon):hover .coach-photo {
+    transform: scale(1.03);
+  }
+
+  .coach-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .coach-placeholder svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .soon-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28, 47, 62, 0.4) 0%, transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+  }
+
+  .soon-badge {
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.675rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--c-secondary);
+    color: #ffffff;
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+
+  /* ─── Info ────────────────────────────────────── */
+  .coach-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .coach-header {
+    margin-bottom: 16px;
+  }
+
+  .coach-name {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--c-primary);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .coach-creds {
+    font-family: var(--f-ui);
+    font-size: 0.8125rem;
+    color: var(--c-text-muted);
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .role-badge {
+    display: inline-block;
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-secondary-dark);
+    background: rgba(192, 139, 62, 0.1);
+    border: 1px solid rgba(192, 139, 62, 0.22);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .coach-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .coach-tag {
+    font-family: var(--f-ui);
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    color: var(--c-primary-light);
+    background: rgba(28, 47, 62, 0.06);
+    border: 1px solid rgba(28, 47, 62, 0.11);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .coach-bio {
+    font-family: var(--f-body);
+    font-size: 0.9375rem;
+    line-height: 1.72;
+    color: var(--c-text-muted);
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .coach-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ─── Responsive ──────────────────────────────── */
+  @media (max-width: 640px) {
+    .team {
+      padding: 72px 0;
+    }
+
+    .coaches-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .coach-photo-wrap {
+      aspect-ratio: 3 / 2;
+    }
+  }
+</style>

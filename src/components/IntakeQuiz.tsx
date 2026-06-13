@@ -8,7 +8,8 @@ import {
   IconButton,
   LinearProgress,
   Fade,
-  Chip,
+  TextField,
+  CircularProgress,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -16,22 +17,16 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../styles/theme';
 
-// ─── Update this URL to your Calendly booking link ───────────────
-const CALENDLY_URL = 'https://calendly.com/YOUR_LINK_HERE';
-
-interface Answers {
-  goal?: string;
-  activityLevel?: string;
-  limitations?: string;
-  equipment?: string;
-  challenge?: string;
-}
+const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+const ACCESS_KEY = 'bff71d1d-a864-4d22-8f6d-281e0368ca8c';
 
 const STEPS = [
   {
-    key: 'goal' as const,
-    question: "What's your primary goal?",
-    subtitle: 'Choose the one that resonates most right now.',
+    key: 'goal',
+    label: 'Goals',
+    multiSelect: true,
+    question: "What are your goals?",
+    subtitle: 'Select all that apply.',
     options: [
       { label: 'Build Strength & Muscle', emoji: '💪' },
       { label: 'Improve Body Composition', emoji: '⚡' },
@@ -42,9 +37,11 @@ const STEPS = [
     ],
   },
   {
-    key: 'activityLevel' as const,
+    key: 'activityLevel',
+    label: 'Activity level',
+    multiSelect: false,
     question: 'How active are you currently?',
-    subtitle: 'Be honest — there are no wrong answers.',
+    subtitle: 'Choose one.',
     options: [
       { label: 'Just getting started', emoji: '🌱' },
       { label: 'Occasionally active (1–2×/week)', emoji: '🚶' },
@@ -53,9 +50,11 @@ const STEPS = [
     ],
   },
   {
-    key: 'limitations' as const,
+    key: 'limitations',
+    label: 'Limitations',
+    multiSelect: false,
     question: 'Any current injuries or physical limitations?',
-    subtitle: "This helps Ryan design a program that's safe and effective for you.",
+    subtitle: 'Choose one.',
     options: [
       { label: 'No current limitations', emoji: '✅' },
       { label: 'Minor aches and pains', emoji: '⚠️' },
@@ -64,9 +63,11 @@ const STEPS = [
     ],
   },
   {
-    key: 'equipment' as const,
+    key: 'equipment',
+    label: 'Training environment',
+    multiSelect: false,
     question: 'Where do you typically train?',
-    subtitle: 'Programs are designed around your available equipment.',
+    subtitle: 'Choose one.',
     options: [
       { label: 'Home with minimal equipment', emoji: '🏠' },
       { label: 'Home gym setup', emoji: '🔧' },
@@ -75,9 +76,11 @@ const STEPS = [
     ],
   },
   {
-    key: 'challenge' as const,
-    question: "What's your biggest obstacle right now?",
-    subtitle: "Understanding this helps Ryan focus on what matters most to you.",
+    key: 'challenge',
+    label: 'Biggest challenges',
+    multiSelect: true,
+    question: "What are your biggest obstacles right now?",
+    subtitle: 'Select all that apply.',
     options: [
       { label: "Not knowing where to start", emoji: '🗺️' },
       { label: 'Staying consistent', emoji: '📅' },
@@ -87,51 +90,17 @@ const STEPS = [
   },
 ];
 
-function getResultMessage(answers: Answers): { headline: string; body: string } {
-  const { goal, limitations } = answers;
-
-  if (
-    limitations === 'Recovering from surgery' ||
-    limitations === 'Managing an existing injury'
-  ) {
-    return {
-      headline: "Ryan's expertise is built for exactly this.",
-      body: "Your combination of fitness goals and injury history is exactly where Ryan's dual background as a Doctor of Physical Therapy and certified strength coach shines. He's helped countless clients navigate this path — and he can help you do the same.",
-    };
-  }
-
-  if (goal === 'Golf Performance') {
-    return {
-      headline: 'TPI-certified coaching for golfers.',
-      body: "As a TPI-certified coach and physical therapist, Ryan builds programs tailored to the specific demands of golf — improving rotation, mobility, and strength so you can play longer, hit farther, and stay injury-free.",
-    };
-  }
-
-  if (goal === 'Athletic Performance' || goal === 'Build Strength & Muscle') {
-    return {
-      headline: 'Performance coaching backed by science.',
-      body: "Your goals align perfectly with Ryan's approach — evidence-based programming, progressive overload, and the movement expertise of a physical therapist to keep you training hard and healthy.",
-    };
-  }
-
-  if (goal === 'Return from Injury') {
-    return {
-      headline: 'Bridge the gap between rehab and fitness.',
-      body: "For 12+ years, Ryan has specialized in guiding people from injury recovery back to the activities they love. His unique PT and coaching background means every program is built with both performance and safety in mind.",
-    };
-  }
-
-  return {
-    headline: "Sounds like a great fit.",
-    body: "Based on your goals and background, Ryan's individualized coaching program is designed for someone exactly like you. Every plan is built around your unique situation, schedule, and equipment — no cookie-cutter plans.",
-  };
-}
+type QuizStep = number | 'contact' | 'done';
 
 function QuizContent() {
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState<number | 'result'>(0);
-  const [answers, setAnswers] = useState<Answers>({});
-  const [selected, setSelected] = useState<string | null>(null);
+  const [step, setStep] = useState<QuizStep>(0);
+  const [answers, setAnswers] = useState<Record<string, string[]>>({});
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
@@ -139,7 +108,10 @@ function QuizContent() {
       setOpen(true);
       setStep(0);
       setAnswers({});
-      setSelected(null);
+      setSelectedOptions([]);
+      setEmail('');
+      setMessage('');
+      setSubmitError('');
     };
     document.addEventListener('open-quiz', handler);
     return () => document.removeEventListener('open-quiz', handler);
@@ -150,48 +122,100 @@ function QuizContent() {
     setTimeout(() => {
       setStep(0);
       setAnswers({});
-      setSelected(null);
+      setSelectedOptions([]);
+      setEmail('');
+      setMessage('');
+      setSubmitError('');
     }, 300);
   };
 
-  const handleSelect = (option: string) => {
-    setSelected(option);
+  const handleToggle = (option: string, multiSelect: boolean) => {
+    if (multiSelect) {
+      setSelectedOptions((prev) =>
+        prev.includes(option) ? prev.filter((o) => o !== option) : [...prev, option]
+      );
+    } else {
+      setSelectedOptions([option]);
+    }
   };
 
   const handleNext = () => {
-    if (!selected) return;
-    const currentStep = STEPS[step as number];
-    const newAnswers = { ...answers, [currentStep.key]: selected };
+    if (selectedOptions.length === 0) return;
+    const current = STEPS[step as number];
+    const newAnswers = { ...answers, [current.key]: selectedOptions };
     setAnswers(newAnswers);
 
     setTransitioning(true);
     setTimeout(() => {
       if ((step as number) < STEPS.length - 1) {
-        setStep((step as number) + 1);
-        setSelected(null);
+        const nextIdx = (step as number) + 1;
+        setStep(nextIdx);
+        setSelectedOptions(newAnswers[STEPS[nextIdx].key] ?? []);
       } else {
-        setStep('result');
+        setStep('contact');
+        setSelectedOptions([]);
       }
       setTransitioning(false);
     }, 200);
   };
 
   const handleBack = () => {
-    if (step === 'result') {
-      setStep(STEPS.length - 1);
-      setSelected(answers[STEPS[STEPS.length - 1].key] ?? null);
+    if (step === 'done') return;
+    if (step === 'contact') {
+      const prevIdx = STEPS.length - 1;
+      setStep(prevIdx);
+      setSelectedOptions(answers[STEPS[prevIdx].key] ?? []);
     } else if ((step as number) > 0) {
-      const prevStep = (step as number) - 1;
-      setStep(prevStep);
-      setSelected(answers[STEPS[prevStep].key] ?? null);
+      const prevIdx = (step as number) - 1;
+      setStep(prevIdx);
+      setSelectedOptions(answers[STEPS[prevIdx].key] ?? []);
     }
   };
 
-  const isResult = step === 'result';
-  const currentStepIndex = isResult ? STEPS.length : (step as number);
-  const progress = (currentStepIndex / STEPS.length) * 100;
-  const result = isResult ? getResultMessage(answers) : null;
-  const currentStep = !isResult ? STEPS[step as number] : null;
+  const handleSubmit = async () => {
+    if (!emailValid) return;
+    setSubmitting(true);
+    setSubmitError('');
+    try {
+      const payload = {
+        access_key: ACCESS_KEY,
+        subject: 'New Fit Quiz Submission — Summitt Wellness',
+        from_name: 'Summitt Wellness',
+        email: email.trim(),
+        'Additional notes': message.trim() || '(none)',
+        Goals: (answers['goal'] ?? []).join(', '),
+        'Activity level': (answers['activityLevel'] ?? []).join(', '),
+        'Injuries / limitations': (answers['limitations'] ?? []).join(', '),
+        'Training environment': (answers['equipment'] ?? []).join(', '),
+        'Biggest challenges': (answers['challenge'] ?? []).join(', '),
+      };
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message ?? 'Submission failed');
+      setStep('done');
+    } catch {
+      setSubmitError('Something went wrong. Please try again or email Ryan directly.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const isContact = step === 'contact';
+  const isDone = step === 'done';
+  const isQuiz = typeof step === 'number';
+
+  // 5 quiz steps + 1 contact step = 6 total
+  const totalSteps = STEPS.length + 1;
+  const stepIndex = isDone ? totalSteps : isContact ? STEPS.length : (step as number);
+  const progress = (stepIndex / totalSteps) * 100;
+
+  const canGoBack = !isDone && (isContact || (step as number) > 0);
+  const currentStep = isQuiz ? STEPS[step as number] : null;
+  const emailValid = email.trim().length > 0 && email.includes('@');
 
   return (
     <Dialog
@@ -205,11 +229,11 @@ function QuizContent() {
         sx: {
           borderRadius: { xs: 0, sm: 2 },
           overflow: 'hidden',
-          maxHeight: { sm: '90vh' },
+          maxHeight: { sm: '92vh' },
         },
       }}
     >
-      {/* Header */}
+      {/* ── Header ────────────────────────────────────────────── */}
       <Box
         sx={{
           backgroundColor: '#1C2F3E',
@@ -221,16 +245,7 @@ function QuizContent() {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {(step as number) > 0 && !isResult && (
-            <IconButton
-              onClick={handleBack}
-              size="small"
-              sx={{ color: 'rgba(255,255,255,0.6)', mr: 0.5 }}
-            >
-              <ArrowBackIcon fontSize="small" />
-            </IconButton>
-          )}
-          {isResult && (
+          {canGoBack && (
             <IconButton
               onClick={handleBack}
               size="small"
@@ -249,7 +264,11 @@ function QuizContent() {
               color: 'rgba(255,255,255,0.6)',
             }}
           >
-            {isResult ? 'Your Results' : `Step ${(step as number) + 1} of ${STEPS.length}`}
+            {isDone
+              ? "You're all set"
+              : isContact
+              ? 'Almost there'
+              : `Step ${(step as number) + 1} of ${STEPS.length}`}
           </Typography>
         </Box>
         <IconButton onClick={handleClose} size="small" sx={{ color: 'rgba(255,255,255,0.6)' }}>
@@ -257,24 +276,23 @@ function QuizContent() {
         </IconButton>
       </Box>
 
-      {/* Progress bar */}
+      {/* ── Progress bar ──────────────────────────────────────── */}
       <LinearProgress
         variant="determinate"
         value={progress}
         sx={{
           height: 3,
           backgroundColor: 'rgba(28,47,62,0.15)',
-          '& .MuiLinearProgress-bar': {
-            backgroundColor: '#C08B3E',
-          },
+          '& .MuiLinearProgress-bar': { backgroundColor: '#C08B3E' },
         }}
       />
 
       <DialogContent sx={{ p: { xs: 3, sm: 4 }, backgroundColor: '#ffffff' }}>
         <Fade in={!transitioning} timeout={200}>
           <Box>
-            {/* Question step */}
-            {!isResult && currentStep && (
+
+            {/* ── Quiz step ──────────────────────────────────── */}
+            {isQuiz && currentStep && (
               <>
                 <Typography
                   variant="h5"
@@ -308,11 +326,11 @@ function QuizContent() {
                   }}
                 >
                   {currentStep.options.map((option) => {
-                    const isSelected = selected === option.label;
+                    const isSelected = selectedOptions.includes(option.label);
                     return (
                       <Box
                         key={option.label}
-                        onClick={() => handleSelect(option.label)}
+                        onClick={() => handleToggle(option.label, currentStep.multiSelect)}
                         sx={{
                           display: 'flex',
                           alignItems: 'center',
@@ -323,6 +341,7 @@ function QuizContent() {
                           backgroundColor: isSelected ? 'rgba(192,139,62,0.06)' : '#ffffff',
                           cursor: 'pointer',
                           transition: 'all 0.18s ease',
+                          userSelect: 'none',
                           '&:hover': {
                             border: '2px solid #C08B3E',
                             backgroundColor: 'rgba(192,139,62,0.04)',
@@ -339,15 +358,48 @@ function QuizContent() {
                             fontSize: '0.9375rem',
                             color: isSelected ? '#1C2F3E' : '#3D5060',
                             lineHeight: 1.3,
+                            flex: 1,
                           }}
                         >
                           {option.label}
                         </Typography>
-                        {isSelected && (
-                          <CheckCircleIcon
-                            sx={{ ml: 'auto', color: '#C08B3E', fontSize: '1.25rem', flexShrink: 0 }}
-                          />
-                        )}
+                        {/* Checkbox (multi) or radio (single) indicator */}
+                        <Box
+                          sx={{
+                            width: 20,
+                            height: 20,
+                            borderRadius: currentStep.multiSelect ? '4px' : '50%',
+                            border: isSelected ? 'none' : '1.5px solid #C4BAB0',
+                            backgroundColor: isSelected ? '#C08B3E' : 'transparent',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            transition: 'all 0.15s ease',
+                          }}
+                        >
+                          {isSelected && currentStep.multiSelect && (
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                              <polyline
+                                points="2,6 5,9 10,3"
+                                stroke="white"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          )}
+                          {isSelected && !currentStep.multiSelect && (
+                            <Box
+                              sx={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: '50%',
+                                backgroundColor: '#ffffff',
+                              }}
+                            />
+                          )}
+                        </Box>
                       </Box>
                     );
                   })}
@@ -355,20 +407,156 @@ function QuizContent() {
 
                 <Button
                   onClick={handleNext}
-                  disabled={!selected}
+                  disabled={selectedOptions.length === 0}
                   variant="contained"
                   color="secondary"
                   fullWidth
                   sx={{ mt: 3, py: 1.625, fontSize: '0.9375rem' }}
                 >
-                  {(step as number) < STEPS.length - 1 ? 'Continue' : 'See My Results'}
+                  {(step as number) < STEPS.length - 1 ? 'Continue' : 'Almost Done'}
                 </Button>
               </>
             )}
 
-            {/* Result step */}
-            {isResult && result && (
-              <Box sx={{ textAlign: 'center' }}>
+            {/* ── Contact form ────────────────────────────────── */}
+            {isContact && (
+              <>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontWeight: 700,
+                    fontSize: { xs: '1.5rem', sm: '1.75rem' },
+                    color: '#1C2F3E',
+                    mb: 0.75,
+                    lineHeight: 1.15,
+                  }}
+                >
+                  Leave your email and Ryan will reach out personally.
+                </Typography>
+
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <TextField
+                    label="Email address"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && emailValid) handleSubmit();
+                    }}
+                    placeholder="you@example.com"
+                    required
+                    fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: '#C08B3E' },
+                      '& label.Mui-focused': { color: '#C08B3E' },
+                    }}
+                  />
+                  <TextField
+                    label="Anything else Ryan should know? (optional)"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    multiline
+                    rows={3}
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Current injuries, upcoming events, specific goals, or anything else on your mind..."
+                    sx={{
+                      '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: '#C08B3E' },
+                      '& label.Mui-focused': { color: '#C08B3E' },
+                    }}
+                  />
+                </Box>
+
+                {/* Answer summary */}
+                <Box
+                  sx={{
+                    mt: 3,
+                    backgroundColor: '#F7F4EF',
+                    borderRadius: 1.5,
+                    p: 2,
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: '"Barlow", sans-serif',
+                      fontWeight: 600,
+                      fontSize: '0.7rem',
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: '#607182',
+                      mb: 1.25,
+                    }}
+                  >
+                    Your answers
+                  </Typography>
+                  {STEPS.map((s) => {
+                    const selected = answers[s.key] ?? [];
+                    return (
+                      <Box
+                        key={s.key}
+                        sx={{ display: 'flex', gap: 1.5, mb: 0.75, flexWrap: 'wrap', alignItems: 'baseline' }}
+                      >
+                        <Typography
+                          sx={{
+                            fontFamily: '"Inter", sans-serif',
+                            fontSize: '0.8rem',
+                            color: '#607182',
+                            flexShrink: 0,
+                            minWidth: 130,
+                          }}
+                        >
+                          {s.label}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontFamily: '"Barlow", sans-serif',
+                            fontWeight: 600,
+                            fontSize: '0.8rem',
+                            color: '#1C2F3E',
+                          }}
+                        >
+                          {selected.length > 0 ? selected.join(', ') : '—'}
+                        </Typography>
+                      </Box>
+                    );
+                  })}
+                </Box>
+
+                {submitError && (
+                  <Typography
+                    sx={{
+                      fontFamily: '"Inter", sans-serif',
+                      fontSize: '0.875rem',
+                      color: '#c0392b',
+                      mt: 2,
+                    }}
+                  >
+                    {submitError}
+                  </Typography>
+                )}
+
+                <Button
+                  onClick={handleSubmit}
+                  disabled={!emailValid || submitting}
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  sx={{ mt: 3, py: 1.625, fontSize: '0.9375rem' }}
+                >
+                  {submitting ? (
+                    <CircularProgress size={22} sx={{ color: '#fff' }} />
+                  ) : (
+                    'Send to Ryan'
+                  )}
+                </Button>
+              </>
+            )}
+
+            {/* ── Confirmation ────────────────────────────────── */}
+            {isDone && (
+              <Box sx={{ textAlign: 'center', py: 2 }}>
                 <Box
                   sx={{
                     width: 64,
@@ -383,109 +571,54 @@ function QuizContent() {
                 >
                   <CheckCircleIcon sx={{ color: '#C08B3E', fontSize: '2rem' }} />
                 </Box>
-
-                <Chip
-                  label="Great News"
-                  sx={{
-                    backgroundColor: 'rgba(192,139,62,0.1)',
-                    color: '#9B6E2C',
-                    fontFamily: '"Barlow", sans-serif',
-                    fontWeight: 600,
-                    fontSize: '0.7rem',
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    mb: 2,
-                  }}
-                />
-
                 <Typography
                   sx={{
                     fontFamily: '"Barlow Condensed", sans-serif',
                     fontWeight: 700,
-                    fontSize: { xs: '1.625rem', sm: '2rem' },
+                    fontSize: { xs: '1.875rem', sm: '2.25rem' },
                     color: '#1C2F3E',
-                    lineHeight: 1.15,
+                    lineHeight: 1.1,
                     mb: 2,
                   }}
                 >
-                  {result.headline}
+                  You're all set.
                 </Typography>
-
                 <Typography
                   sx={{
                     fontFamily: '"Inter", sans-serif',
                     fontSize: '0.9375rem',
                     color: '#607182',
                     lineHeight: 1.75,
-                    mb: 3.5,
-                    maxWidth: 460,
+                    maxWidth: 380,
                     mx: 'auto',
+                    mb: 4,
                   }}
                 >
-                  {result.body}
+                  Ryan will be in touch at{' '}
+                  <Box component="span" sx={{ fontWeight: 600, color: '#1C2F3E' }}>
+                    {email}
+                  </Box>
+                  .
                 </Typography>
-
-                <Box
-                  sx={{
-                    backgroundColor: '#F7F4EF',
-                    borderRadius: 1.5,
-                    p: 2.5,
-                    mb: 3,
-                    textAlign: 'left',
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      fontFamily: '"Barlow", sans-serif',
-                      fontWeight: 600,
-                      fontSize: '0.75rem',
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      color: '#607182',
-                      mb: 1.5,
-                    }}
-                  >
-                    Your answers
-                  </Typography>
-                  {STEPS.map((s) => (
-                    <Box key={s.key} sx={{ display: 'flex', gap: 1, mb: 0.75 }}>
-                      <Typography
-                        sx={{ fontFamily: '"Inter", sans-serif', fontSize: '0.8125rem', color: '#607182', flexShrink: 0 }}
-                      >
-                        {s.question.replace("?", ":")}
-                      </Typography>
-                      <Typography
-                        sx={{ fontFamily: '"Barlow", sans-serif', fontWeight: 600, fontSize: '0.8125rem', color: '#1C2F3E' }}
-                      >
-                        {answers[s.key] ?? '—'}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-
                 <Button
-                  component="a"
-                  href={CALENDLY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="contained"
-                  color="secondary"
-                  fullWidth
-                  sx={{ py: 1.875, fontSize: '1rem', mb: 1.5 }}
-                >
-                  Schedule Your Free Consultation
-                </Button>
-                <Typography
+                  onClick={handleClose}
+                  variant="outlined"
                   sx={{
-                    fontFamily: '"Inter", sans-serif',
-                    fontSize: '0.8125rem',
-                    color: '#607182',
+                    fontFamily: '"Barlow", sans-serif',
+                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    letterSpacing: '0.06em',
+                    borderColor: '#1C2F3E',
+                    color: '#1C2F3E',
+                    px: 4,
+                    '&:hover': { backgroundColor: 'rgba(28,47,62,0.05)' },
                   }}
                 >
-                  Free 20-minute call · No commitment required
-                </Typography>
+                  Close
+                </Button>
               </Box>
             )}
+
           </Box>
         </Fade>
       </DialogContent>
