@@ -20,6 +20,16 @@ import { theme } from '../styles/theme';
 const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
 const ACCESS_KEY = 'bff71d1d-a864-4d22-8f6d-281e0368ca8c';
 
+// Optional field: allows a blank value, but if filled requires a real-looking
+// number — optional leading country/trunk code (+1, 1, or 0), area code, and 7 digits.
+const PHONE_REGEX = /^(\+?1[-.\s]?|0)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+
+// Requires a non-whitespace local part, a domain, and a dot-separated TLD —
+// rejects things like "a@" that the old `.includes('@')` check let through.
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const DEFAULT_COACH = 'Ryan Summitt';
+
 const STEPS = [
   {
     key: 'goal',
@@ -98,20 +108,25 @@ function QuizContent() {
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+  const [coach, setCoach] = useState(DEFAULT_COACH);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
-    const handler = () => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ coach?: string }>).detail;
       setOpen(true);
       setStep(0);
       setAnswers({});
       setSelectedOptions([]);
       setEmail('');
+      setPhone('');
       setMessage('');
       setSubmitError('');
+      setCoach(detail?.coach || DEFAULT_COACH);
     };
     document.addEventListener('open-quiz', handler);
     return () => document.removeEventListener('open-quiz', handler);
@@ -124,6 +139,7 @@ function QuizContent() {
       setAnswers({});
       setSelectedOptions([]);
       setEmail('');
+      setPhone('');
       setMessage('');
       setSubmitError('');
     }, 300);
@@ -173,7 +189,7 @@ function QuizContent() {
   };
 
   const handleSubmit = async () => {
-    if (!emailValid) return;
+    if (!emailValid || !phoneValid) return;
     setSubmitting(true);
     setSubmitError('');
     try {
@@ -182,6 +198,8 @@ function QuizContent() {
         subject: 'New Fit Quiz Submission — Summitt Wellness',
         from_name: 'Summitt Wellness',
         email: email.trim(),
+        Phone: phone.trim() || '(none)',
+        'Coach requested': coach,
         'Additional notes': message.trim() || '(none)',
         Goals: (answers['goal'] ?? []).join(', '),
         'Activity level': (answers['activityLevel'] ?? []).join(', '),
@@ -198,7 +216,7 @@ function QuizContent() {
       if (!data.success) throw new Error(data.message ?? 'Submission failed');
       setStep('done');
     } catch {
-      setSubmitError('Something went wrong. Please try again or email Ryan directly.');
+      setSubmitError('Something went wrong. Please try again or reach out directly.');
     } finally {
       setSubmitting(false);
     }
@@ -215,7 +233,9 @@ function QuizContent() {
 
   const canGoBack = !isDone && (isContact || (step as number) > 0);
   const currentStep = isQuiz ? STEPS[step as number] : null;
-  const emailValid = email.trim().length > 0 && email.includes('@');
+  const emailValid = EMAIL_REGEX.test(email.trim());
+  const phoneValid = phone.trim().length === 0 || PHONE_REGEX.test(phone.trim());
+  const coachFirstName = coach.split(' ')[0];
 
   return (
     <Dialog
@@ -432,7 +452,7 @@ function QuizContent() {
                     lineHeight: 1.15,
                   }}
                 >
-                  Leave your email and Ryan will reach out personally.
+                  Leave your email and {coachFirstName} will reach out personally.
                 </Typography>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -442,10 +462,12 @@ function QuizContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && emailValid) handleSubmit();
+                      if (e.key === 'Enter' && emailValid && phoneValid) handleSubmit();
                     }}
                     placeholder="you@example.com"
                     required
+                    error={email.trim().length > 0 && !emailValid}
+                    helperText={email.trim().length > 0 && !emailValid ? 'Enter a valid email address.' : ' '}
                     fullWidth
                     variant="outlined"
                     sx={{
@@ -454,7 +476,25 @@ function QuizContent() {
                     }}
                   />
                   <TextField
-                    label="Anything else Ryan should know? (optional)"
+                    label="Phone number (optional)"
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && emailValid && phoneValid) handleSubmit();
+                    }}
+                    placeholder="(404) 555-1234"
+                    error={!phoneValid}
+                    helperText={!phoneValid ? 'Enter a valid phone number with area code.' : ' '}
+                    fullWidth
+                    variant="outlined"
+                    sx={{
+                      '& .MuiOutlinedInput-root.Mui-focused fieldset': { borderColor: '#C08B3E' },
+                      '& label.Mui-focused': { color: '#C08B3E' },
+                    }}
+                  />
+                  <TextField
+                    label={`Anything else ${coachFirstName} should know? (optional)`}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     multiline
@@ -539,7 +579,7 @@ function QuizContent() {
 
                 <Button
                   onClick={handleSubmit}
-                  disabled={!emailValid || submitting}
+                  disabled={!emailValid || !phoneValid || submitting}
                   variant="contained"
                   color="secondary"
                   fullWidth
@@ -548,7 +588,7 @@ function QuizContent() {
                   {submitting ? (
                     <CircularProgress size={22} sx={{ color: '#fff' }} />
                   ) : (
-                    'Send to Ryan'
+                    `Send to ${coachFirstName}`
                   )}
                 </Button>
               </>
@@ -594,7 +634,7 @@ function QuizContent() {
                     mb: 4,
                   }}
                 >
-                  Ryan will be in touch at{' '}
+                  {coachFirstName} will be in touch at{' '}
                   <Box component="span" sx={{ fontWeight: 600, color: '#1C2F3E' }}>
                     {email}
                   </Box>

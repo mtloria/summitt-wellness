@@ -20,7 +20,7 @@ type FAQItem = {
 const FAQS: FAQItem[] = [
   {
     q: 'How is this different from other online fitness programs?',
-    a: "Unlike generic workout programs, every client receives an individualized training plan based on their goals, fitness level, injury history, schedule, and available equipment. As both a fitness coach and physical therapist, I combine performance training with movement and injury expertise to help you get stronger, move better, and stay active long-term.",
+    a: "Unlike generic workout programs, every client receives an individualized training plan based on their goals, fitness level, injury history, schedule, and available equipment. Our coaches combine performance training with movement and injury expertise to help you get stronger, move better, and stay active long-term.",
   },
   {
     q: "What's included in my coaching program?",
@@ -37,7 +37,7 @@ const FAQS: FAQItem[] = [
   },
   {
     q: 'Does this include in-person training sessions?',
-    a: "This is a fully online coaching program delivered through the Trainerize app. While we will connect during your initial consultation and communicate regularly throughout the coaching process, all workouts, progress tracking, exercise instruction, and coaching support are provided remotely. One of the biggest advantages of online coaching is that it provides guidance for every workout, not just the one hour you spend with a trainer. This leads to greater consistency and better long-term results because the program is built around your schedule and actual environment.",
+    a: "This is a fully online coaching program delivered through the Trainerize app. While we connect during your initial consultation and communicate regularly throughout the coaching process, all workouts, progress tracking, exercise instruction, and coaching support are provided remotely. One of the biggest advantages of online coaching is that it provides guidance for every workout, not just the one hour you spend with a trainer. This leads to greater consistency and better long-term results because the program is built around your schedule and actual environment.",
   },
   {
     q: 'How does the Trainerize app work?',
@@ -45,7 +45,7 @@ const FAQS: FAQItem[] = [
   },
   {
     q: 'What if I have a previous injury or current aches and pains?',
-    a: "During our initial consultation, we'll review your injury history, movement limitations, training experience, and goals. Using that information, I'll design a program that helps you continue progressing while addressing areas that may be limiting your performance or increasing your risk of injury. Personalized rehab and prehab exercises will be incorporated as needed to help you move and perform at your best.",
+    a: "During our initial consultation, we'll review your injury history, movement limitations, training experience, and goals. Using that information, we'll design a program that helps you continue progressing while addressing areas that may be limiting your performance or increasing your risk of injury. Personalized rehab and prehab exercises will be incorporated as needed to help you move and perform at your best.",
   },
   {
     q: 'How often can I communicate with my coach?',
@@ -53,7 +53,7 @@ const FAQS: FAQItem[] = [
   },
   {
     q: 'Do you provide nutrition coaching?',
-    a: "Yes. Nutrition guidance is included as part of your coaching program. While I am not a Registered Dietitian, I can help you develop practical nutrition habits that support your goals, whether that involves improving body composition, enhancing performance, supporting recovery, or building a healthier lifestyle. For clients with more complex nutritional needs, I'm happy to collaborate with a qualified RD.",
+    a: "Yes. Nutrition guidance is included as part of your coaching program. While our coaches are not Registered Dietitians, we can help you develop practical nutrition habits that support your goals, whether that involves improving body composition, enhancing performance, supporting recovery, or building a healthier lifestyle. For clients with more complex nutritional needs, we're happy to collaborate with a qualified RD.",
   },
   {
     q: 'Can the program be customized for my specific sport or goal?',
@@ -69,7 +69,7 @@ const FAQS: FAQItem[] = [
   },
   {
     q: 'How do I get started?',
-    a: "The process begins with an initial consultation where we'll discuss your goals, training history, injury history, lifestyle, schedule, and available equipment. From there, I'll build your individualized program and get you set up in Trainerize so you can begin training with confidence and a clear plan for success.",
+    a: "The process begins with an initial consultation where we'll discuss your goals, training history, injury history, lifestyle, schedule, and available equipment. From there, we'll build your individualized program and get you set up in Trainerize so you can begin training with confidence and a clear plan for success.",
   },
 ];
 
@@ -125,7 +125,7 @@ function FAQContent() {
                 mb: 4,
               }}
             >
-              Can&rsquo;t find your answer? Reach out directly. Ryan answers every message personally.
+              Can&rsquo;t find your answer? Reach out directly. Our team answers every message personally.
             </Typography>
             <Box
               component="a"
@@ -147,7 +147,7 @@ function FAQContent() {
                 '&:hover': { color: '#C08B3E' },
               }}
             >
-              Ask Ryan directly
+              Ask us directly
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="9,18 15,12 9,6"></polyline>
               </svg>

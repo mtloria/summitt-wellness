@@ -1,5 +1,6 @@
 ---
 import ryanPhoto from '../assets/IMG_1857.jpeg';
+import courtneyPhoto from '../assets/courtney_1.jpg';
 
 const COACHES = [
   {
@@ -7,6 +8,7 @@ const COACHES = [
     credentials: 'PT, DPT, OCS, CSCS, TPI',
     role: 'Lead Coach & Founder',
     photo: ryanPhoto.src,
+    photoPosition: 'center 20%',
     tags: ['Strength & Conditioning', 'Orthopedic PT', 'Golf Performance', 'Trail Running & HYROX'],
     bio: 'Nearly two decades of coaching and clinical experience, helping athletes, professionals, and active adults move better, get stronger, and stay active for life.',
     comingSoon: false,
@@ -15,10 +17,11 @@ const COACHES = [
     name: 'Courtney Summitt',
     credentials: 'PT, DPT, PMP, RYT-200',
     role: 'Doctor of Physical Therapy',
-    photo: null as string | null,
+    photo: courtneyPhoto.src,
+    photoPosition: 'center 40%',
     tags: ['Pelvic Health', 'Pre/Postpartum Care', 'Yoga & Movement', 'Orthopedic PT'],
-    bio: 'A licensed Doctor of Physical Therapy with clinical experience in orthopedic rehabilitation, pelvic health, pregnancy and postpartum care, and functional movement training. Certified yoga instructor (RYT-200) and Project Management Professional (PMP).',
-    comingSoon: true,
+    bio: "A licensed Doctor of Physical Therapy with more than a decade of experience helping clients move better, reduce pain, recover from injury, and optimize performance. Her clinical background spans orthopedic rehab, sports medicine, pelvic health, pregnancy and postpartum care, and functional movement training, with specialized training in pelvic health and obstetric PT, manual therapy techniques like dry needling and Graston Technique, and yoga-based movement principles.",
+    comingSoon: false,
   },
 ];
 ---
@@ -47,6 +50,7 @@ const COACHES = [
                 src={coach.photo}
                 alt={`${coach.name}, ${coach.role}`}
                 class="coach-photo"
+                style={`object-position: ${coach.photoPosition};`}
                 loading="lazy"
               />
             ) : (
@@ -84,9 +88,9 @@ const COACHES = [
             {!coach.comingSoon && (
               <button
                 class="btn btn-outline-dark coach-cta"
-                id="team-ryan-btn"
+                data-coach={coach.name}
               >
-                Work with Ryan
+                Work with {coach.name.split(' ')[0]}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <polyline points="9,18 15,12 9,6"></polyline>
                 </svg>
@@ -101,8 +105,11 @@ const COACHES = [
 </section>
 
 <script>
-  document.getElementById('team-ryan-btn')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('open-quiz'));
+  document.querySelectorAll('.coach-cta[data-coach]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const coach = btn.getAttribute('data-coach') ?? '';
+      document.dispatchEvent(new CustomEvent('open-quiz', { detail: { coach } }));
+    });
   });
 </script>
 
