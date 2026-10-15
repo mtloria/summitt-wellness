@@ -1,5 +1,6 @@
 ---
 import mountainImg from '../assets/switzerland_2048x2048.jpg';
+import { BOOKING_URL, CONTACT_EMAIL } from '../config';
 ---
 
 <section
@@ -12,32 +13,26 @@ import mountainImg from '../assets/switzerland_2048x2048.jpg';
     <div class="cta-inner">
       <span class="eyebrow eyebrow-light">Get Started</span>
       <h2 class="section-title section-title-light cta-title">
-        Ready to Reach<br />Your Summit?
+        Ready to Feel<br />Your Best?
       </h2>
       <p class="cta-body">
-        The next step is simple. Take the 5-question fit quiz and schedule a consultation call.
-        No commitments, no obligations. Just a real conversation about what&rsquo;s possible.
+        Book your initial evaluation online and take the first step toward less pain and better
+        movement. Have a question first? Ryan is happy to help.
       </p>
       <div class="cta-actions">
-        <button class="btn btn-gold" id="cta-quiz-btn">
-          Take the Fit Quiz
+        <a href={BOOKING_URL} class="btn btn-gold">
+          Book Now
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9,18 15,12 9,6"></polyline>
           </svg>
-        </button>
-        <a href="mailto:Ryan@summittwellness.com" class="btn btn-outline-white">
+        </a>
+        <a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-outline-white">
           Email Ryan Directly
         </a>
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  document.getElementById('cta-quiz-btn')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('open-quiz'));
-  });
-</script>
 
 <style>
   .cta {

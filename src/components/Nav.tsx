@@ -16,6 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../styles/theme';
+import { BOOKING_URL } from '../config';
 
 interface NavProps {
   logoSrc: string;
@@ -24,8 +25,9 @@ interface NavProps {
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
-  { label: 'Coaching', href: '#coaching' },
+  { label: 'Services', href: '#services' },
   { label: 'FAQ', href: '#faq' },
+  { label: 'Coaching', href: '#coaching' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -38,11 +40,6 @@ function NavContent({ logoSrc, base = '' }: NavProps) {
     window.addEventListener('scroll', handler, { passive: true });
     return () => window.removeEventListener('scroll', handler);
   }, []);
-
-  const openQuiz = () => {
-    document.dispatchEvent(new CustomEvent('open-quiz'));
-    setMobileOpen(false);
-  };
 
   const handleNavClick = (href: string) => {
     setMobileOpen(false);
@@ -113,12 +110,12 @@ function NavContent({ logoSrc, base = '' }: NavProps) {
                 </Button>
               ))}
               <Button
-                onClick={openQuiz}
+                href={BOOKING_URL}
                 variant="contained"
                 color="secondary"
                 sx={{ ml: 2, py: 1.25, px: 3.5 }}
               >
-                Get Started
+                Book Now
               </Button>
             </Box>
 
@@ -193,13 +190,14 @@ function NavContent({ logoSrc, base = '' }: NavProps) {
 
         <Box sx={{ px: 3, mt: 4 }}>
           <Button
-            onClick={openQuiz}
+            href={BOOKING_URL}
+            onClick={() => setMobileOpen(false)}
             variant="contained"
             color="secondary"
             fullWidth
             sx={{ py: 1.75, fontSize: '0.9375rem' }}
           >
-            Take the Fit Quiz
+            Book Now
           </Button>
         </Box>
       </Drawer>

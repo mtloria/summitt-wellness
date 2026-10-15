@@ -10,66 +10,57 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../styles/theme';
+import { CONTACT_EMAIL } from '../config';
 
 type FAQItem = {
   q: string;
   a: string | string[];
   intro?: string;
+  // Render an array answer as paragraphs instead of a bulleted list
+  paragraphs?: boolean;
 };
 
 const FAQS: FAQItem[] = [
   {
-    q: 'How is this different from other online fitness programs?',
-    a: "Unlike generic workout programs, every client receives an individualized training plan based on their goals, fitness level, injury history, schedule, and available equipment. Our coaches combine performance training with movement and injury expertise to help you get stronger, move better, and stay active long-term.",
+    q: 'Are you accepting new patients?',
+    a: 'Yes! Use the Book Now button and select “Initial Evaluation” to schedule your first visit.',
   },
   {
-    q: "What's included in my coaching program?",
-    intro: "Your coaching program includes:",
+    q: 'Do you accept insurance?',
     a: [
-      'Individualized workouts for every day of the week',
-      'Goal setting and progress tracking',
-      'Customized rehab and prehab exercises based on your initial consultation',
-      'Nutrition guidance and habit coaching',
-      'Exercise demonstration videos and detailed instructions for every movement',
-      'Unlimited communication and support through the Trainerize app',
-      'Ongoing program adjustments based on your progress and feedback',
+      "Summitt Wellness is not contracted with any insurance companies, which means we're considered “out of network.” Payment is made directly at the time of your visit.",
+      "If you'd like to seek reimbursement, we can provide you with a superbill — a detailed receipt with the diagnosis and treatment codes your insurance company needs. You can submit it to your insurer for possible out-of-network reimbursement, though reimbursement is not guaranteed. We recommend calling your insurance company ahead of time to ask about your out-of-network physical therapy benefits.",
+      "Please be advised that Summitt Wellness currently has “no relationship” with Medicare. As such, we are unable to bill for skilled physical therapy services.",
     ],
+    paragraphs: true,
   },
   {
-    q: 'Does this include in-person training sessions?',
-    a: "This is a fully online coaching program delivered through the Trainerize app. While we connect during your initial consultation and communicate regularly throughout the coaching process, all workouts, progress tracking, exercise instruction, and coaching support are provided remotely. One of the biggest advantages of online coaching is that it provides guidance for every workout, not just the one hour you spend with a trainer. This leads to greater consistency and better long-term results because the program is built around your schedule and actual environment.",
+    q: 'Why doesn\'t Ryan work through insurance?',
+    a: "Working outside of insurance allows for transparent pricing and care that isn't limited by insurance restrictions on visit counts, session length, or treatment choices. It also means truly one-on-one care: you'll never share a session with another patient, and you'll never be handed off to another therapist or an assistant. You work with Ryan from your first visit to your last, and quality and continuity of care come first.",
   },
   {
-    q: 'How does the Trainerize app work?',
-    a: "Trainerize serves as your central coaching platform. You'll receive your workouts directly in the app, track completed sessions, log progress, communicate directly with your coach, and access exercise videos and instructions. The app makes it easy to stay accountable and know exactly what to do each day.",
+    q: 'Can I use my HSA or FSA for payment?',
+    a: 'Yes! HSA and FSA cards are accepted.',
   },
   {
-    q: 'What if I have a previous injury or current aches and pains?',
-    a: "During our initial consultation, we'll review your injury history, movement limitations, training experience, and goals. Using that information, we'll design a program that helps you continue progressing while addressing areas that may be limiting your performance or increasing your risk of injury. Personalized rehab and prehab exercises will be incorporated as needed to help you move and perform at your best.",
+    q: "Do I need a physician's referral?",
+    a: "Not necessarily. Indiana allows direct access to physical therapy services without a referral for up to 42 days. If you need care beyond 42 days, you'll need to obtain a referral at that time.",
   },
   {
-    q: 'How often can I communicate with my coach?',
-    a: "You have unlimited communication through the Trainerize app. Whether you have questions about an exercise, need modifications, want feedback on your training, or simply need accountability, you'll have direct access to coaching support throughout your program.",
+    q: 'What should I expect at my initial evaluation?',
+    a: "Ryan will assess your movement patterns along with your general mobility and strength, so wear comfortable clothing you can move easily in. You'll discuss your personal goals and develop a plan of care to help you reach them. Manual therapy techniques may be used or discussed to help decrease pain or improve mobility. Finally, you'll be given a home exercise program specific to you and your condition. You are an active participant in your success!",
   },
   {
-    q: 'Do you provide nutrition coaching?',
-    a: "Yes. Nutrition guidance is included as part of your coaching program. While our coaches are not Registered Dietitians, we can help you develop practical nutrition habits that support your goals, whether that involves improving body composition, enhancing performance, supporting recovery, or building a healthier lifestyle. For clients with more complex nutritional needs, we're happy to collaborate with a qualified RD.",
+    q: 'What is dry needling?',
+    a: "Dry needling uses thin, sterile, single-use needles to target trigger points and tight bands of muscle. It can help decrease pain, reduce muscle tension, and improve movement. It's always used as one part of a broader treatment plan alongside manual therapy and exercise, and Ryan will talk through whether it's a good fit for you before using it.",
   },
   {
-    q: 'Can the program be customized for my specific sport or goal?',
-    a: "Absolutely. Every program is built around your individual goals. Whether your focus is building strength, improving body composition, enhancing athletic performance, returning from injury, improving golf performance, preparing for a specific event, or simply living a healthier, more active lifestyle, your program will evolve as you progress.",
+    q: 'How do I schedule?',
+    a: 'Scheduling is easy! Click the Book Now button and schedule yourself. If you\'re a new patient, please select “Initial Evaluation” in the scheduling system.',
   },
   {
-    q: 'Do I need gym experience or equipment to get started?',
-    a: "Not at all. Whether you're new to exercise or an experienced athlete, your program will be tailored to your current fitness level. Every exercise includes demonstration videos and clear instructions, so you'll always know exactly how to perform each movement safely and effectively.",
-  },
-  {
-    q: 'What does coaching cost?',
-    a: "Coaching is personalized to each client, and pricing is something we discuss during the initial consultation. The goal is to get to know you first, understand your situation, and make sure the program is the right fit before anything else. Take the quiz to start the conversation.",
-  },
-  {
-    q: 'How do I get started?',
-    a: "The process begins with an initial consultation where we'll discuss your goals, training history, injury history, lifestyle, schedule, and available equipment. From there, we'll build your individualized program and get you set up in Trainerize so you can begin training with confidence and a clear plan for success.",
+    q: 'What is your cancellation policy?',
+    a: 'Cancellations made more than 24 hours in advance are not charged. Cancellations within 24 hours of your appointment are charged the full session amount.',
   },
 ];
 
@@ -125,11 +116,11 @@ function FAQContent() {
                 mb: 4,
               }}
             >
-              Can&rsquo;t find your answer? Reach out directly. Our team answers every message personally.
+              Can&rsquo;t find your answer? Reach out directly. Ryan answers every message personally.
             </Typography>
             <Box
               component="a"
-              href="mailto:Ryan@summittwellness.com"
+              href={`mailto:${CONTACT_EMAIL}`}
               sx={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -147,7 +138,7 @@ function FAQContent() {
                 '&:hover': { color: '#C08B3E' },
               }}
             >
-              Ask us directly
+              Ask Ryan directly
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="9,18 15,12 9,6"></polyline>
               </svg>
@@ -173,7 +164,13 @@ function FAQContent() {
                     {faq.q}
                   </AccordionSummary>
                   <AccordionDetails>
-                    {Array.isArray(faq.a) ? (
+                    {Array.isArray(faq.a) && faq.paragraphs ? (
+                      <Box sx={{ '& p + p': { mt: 1.5 } }}>
+                        {faq.a.map((para) => (
+                          <p key={para}>{para}</p>
+                        ))}
+                      </Box>
+                    ) : Array.isArray(faq.a) ? (
                       <Box>
                         {faq.intro && (
                           <Box sx={{ mb: 1.5 }}>{faq.intro}</Box>

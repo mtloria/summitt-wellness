@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import coachingPhoto from '../assets/OHP-2.jpg';
+import { CONTACT_EMAIL } from '../config';
+---
+
+<section class="coaching" id="coaching">
+  <div class="container">
+    <div class="coaching-grid">
+      <div class="coaching-content">
+        <span class="eyebrow">Beyond Physical Therapy</span>
+        <h2 class="section-title coaching-title">
+          Looking for Long-Term Guidance?
+        </h2>
+        <p class="coaching-body">
+          Once you&rsquo;re moving well, the next step is staying that way. If you want ongoing
+          guidance for your fitness and health routine, Ryan offers individualized fitness coaching
+          that builds on the same clinical expertise &mdash; helping you get stronger, stay
+          consistent, and keep doing what you love for years to come.
+        </p>
+        <div class="coaching-actions">
+          <button class="btn btn-outline-dark" id="coaching-quiz-btn">
+            Explore Fitness Coaching
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="9,18 15,12 9,6"></polyline>
+            </svg>
+          </button>
+        </div>
+        <p class="coaching-note">
+          Interested in in-person personal training?
+          <a href={`mailto:${CONTACT_EMAIL}?subject=Personal%20Training%20Inquiry`}>Contact Ryan</a>
+          for inquiries and availability.
+        </p>
+      </div>
+
+      <div class="coaching-photo-wrap">
+        <Image
+          src={coachingPhoto}
+          width={1200}
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 900px) 100vw, 560px"
+          alt="Ryan Summitt coaching a client through an overhead dumbbell press"
+          class="coaching-photo"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('coaching-quiz-btn')?.addEventListener('click', () => {
+    document.dispatchEvent(new CustomEvent('open-quiz'));
+  });
+</script>
+
+<style>
+  .coaching {
+    background-color: var(--c-surface);
+    padding: 100px 0;
+  }
+
+  .coaching-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  .coaching-title {
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    margin-bottom: 22px;
+  }
+
+  .coaching-body {
+    font-family: var(--f-body);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--c-text-muted);
+    margin-bottom: 32px;
+  }
+
+  .coaching-actions {
+    margin-bottom: 24px;
+  }
+
+  .coaching-note {
+    font-family: var(--f-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--c-text-muted);
+  }
+
+  .coaching-note a {
+    color: var(--c-primary);
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid var(--c-secondary);
+    transition: color 0.2s;
+  }
+
+  .coaching-note a:hover {
+    color: var(--c-secondary);
+  }
+
+  .coaching-photo {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center 40%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+  }
+
+  @media (max-width: 900px) {
+    .coaching-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .coaching-photo-wrap {
+      order: -1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .coaching {
+      padding: 72px 0;
+    }
+
+    .coaching-actions .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

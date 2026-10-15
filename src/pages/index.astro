@@ -4,10 +4,13 @@ import Nav from '../components/Nav';
 import Hero from '../components/Hero.astro';
 import CredentialsBar from '../components/CredentialsBar.astro';
 import About from '../components/About.astro';
-import TeamSection from '../components/TeamSection.astro';
-import WhatIncluded from '../components/WhatIncluded.astro';
+// Hidden for now (Courtney + online coaching program); may return later.
+// import TeamSection from '../components/TeamSection.astro';
+// import WhatIncluded from '../components/WhatIncluded.astro';
+import Services from '../components/Services.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import FAQ from '../components/FAQ';
+import Coaching from '../components/Coaching.astro';
 import ContactCTA from '../components/ContactCTA.astro';
 import Footer from '../components/Footer.astro';
 import IntakeQuiz from '../components/IntakeQuiz';
@@ -23,10 +26,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <Hero />
     <CredentialsBar />
     <About />
-    <TeamSection />
-    <WhatIncluded />
+    <Services />
     <HowItWorks />
     <FAQ client:visible />
+    <Coaching />
     <ContactCTA />
   </main>
   <Footer />

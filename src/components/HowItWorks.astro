@@ -1,19 +1,21 @@
 ---
+import { BOOKING_URL } from '../config';
+
 const steps = [
   {
     number: '01',
-    title: 'Take the Fit Quiz',
-    body: 'Answer 5 quick questions about your goals, activity level, injuries, and challenges. This helps Ryan understand exactly who you are and what you need.',
+    title: 'Book Your Initial Evaluation',
+    body: 'Schedule online in a few clicks. New patients select “Initial Evaluation.” No physician referral is needed to get started.',
   },
   {
     number: '02',
-    title: 'Schedule Your Consultation',
-    body: "Connect with Ryan on a consultation call. No scripts, no sales pitch, just an honest conversation about where you are, where you want to go, and whether this program is the right fit.",
+    title: 'Assessment & Treatment',
+    body: "Ryan assesses your movement patterns, mobility, and strength, talks through your goals, and begins treatment that same visit with manual therapy and targeted exercise as needed.",
   },
   {
     number: '03',
-    title: 'Start Your Custom Program',
-    body: "Ryan builds your individualized plan and gets you set up in Trainerize. You'll know exactly what to do, why you're doing it, and how to progress from day one.",
+    title: 'Your Plan of Care',
+    body: "You'll leave with a clear plan and a home exercise program specific to you. Follow-up visits progress your treatment until you're back to doing what you love.",
   },
 ];
 ---
@@ -22,12 +24,12 @@ const steps = [
   <div class="container">
     <div class="how-inner">
       <div class="how-header">
-        <span class="eyebrow eyebrow-light">The Process</span>
+        <span class="eyebrow eyebrow-light">What to Expect</span>
         <h2 class="section-title section-title-light how-title">
-          Simple. Personal.<br />Built for You.
+          Simple. Personal.<br />Built Around You.
         </h2>
         <p class="how-sub">
-          From first contact to your first workout &mdash; here&rsquo;s what to expect.
+          From your first visit to getting back to full strength &mdash; here&rsquo;s how it works.
         </p>
       </div>
 
@@ -51,22 +53,16 @@ const steps = [
       </div>
 
       <div class="how-cta">
-        <button class="btn btn-gold" id="how-quiz-btn">
-          Take the Fit Quiz
+        <a href={BOOKING_URL} class="btn btn-gold">
+          Book Now
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9,18 15,12 9,6"></polyline>
           </svg>
-        </button>
+        </a>
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  document.getElementById('how-quiz-btn')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('open-quiz'));
-  });
-</script>
 
 <style>
   .how {

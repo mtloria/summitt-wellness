@@ -1,5 +1,6 @@
 ---
-import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
+import { Image } from 'astro:assets';
+import aboutPhoto from '../assets/squat.jpg';
 ---
 
 <section class="about" id="about">
@@ -8,9 +9,12 @@ import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
       <!-- Photo column -->
       <div class="about-photos">
         <div class="photo-main-wrap">
-          <img
-            src={finishPhoto.src}
-            alt="Ryan Summitt at the HYROX Atlanta finish line"
+          <Image
+            src={aboutPhoto}
+            width={1200}
+            widths={[480, 800, 1200]}
+            sizes="(max-width: 900px) 100vw, 560px"
+            alt="Ryan Summitt cueing a patient through a squat pattern"
             class="photo-main"
             loading="lazy"
           />
@@ -20,30 +24,27 @@ import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
 
       <!-- Content column -->
       <div class="about-content">
-        <span class="eyebrow">Meet Your Coach</span>
+        <span class="eyebrow">Meet Your Physical Therapist</span>
         <h2 class="section-title about-title">
-          Coaching Built on<br />Clinical Expertise.
+          Clinical Expertise.<br />Personal Care.
         </h2>
         <p class="about-body">
-          Ryan Summitt, PT, DPT, OCS, CSCS, is a fitness coach, physical therapist, and strength
-          and conditioning specialist with nearly two decades of experience helping people move
-          better, get stronger, and stay active for life. His coaching career began in 2008 while
-          studying at DePauw University, where he worked as a personal trainer and developed a
-          passion for helping others achieve their fitness goals.
+          Ryan Summitt, PT, DPT, OCS, CSCS, is a physical therapist who helps people reduce pain,
+          recover from injury, and get back to the activities they love. Every visit is one-on-one
+          with Ryan &mdash; combining hands-on manual therapy with targeted corrective exercise to
+          address both the symptoms and the movement patterns behind them.
         </p>
         <p class="about-body">
-          What sets Ryan apart is his unique combination of fitness coaching and clinical expertise.
           As a Doctor of Physical Therapy, Board-Certified Orthopedic Clinical Specialist (OCS), and
-          Certified Strength and Conditioning Specialist (CSCS), he understands both how to maximize
-          performance and how to navigate injuries safely. For the past 12 years, Ryan has focused on
-          helping active individuals bridge the gap between rehabilitation and fitness, guiding them
-          from injury recovery back to the activities they love with confidence.
+          Certified Strength and Conditioning Specialist (CSCS), Ryan brings a rare blend of clinical
+          and performance expertise. For more than 12 years he has helped active people bridge the gap
+          between rehabilitation and fitness, guiding them from injury recovery back to full strength
+          with confidence.
         </p>
         <p class="about-body">
-          Ryan believes that fitness should enhance every aspect of life, not just performance in the
-          gym. Whether working with athletes, busy professionals, or active adults, his approach
-          combines evidence-based training, movement optimization, and sustainable habits to help
-          clients build strength, resilience, and longevity.
+          Whether you&rsquo;re dealing with a nagging ache, recovering from an injury, or trying to
+          move and perform better, Ryan&rsquo;s approach is evidence-based, individualized, and focused
+          on long-term results &mdash; not just short-term relief.
         </p>
 
         <!-- Credential badges -->
@@ -57,11 +58,11 @@ import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
         <div class="highlights">
           <div class="highlight-item">
             <span class="highlight-number">18+</span>
-            <span class="highlight-label">Years of coaching and clinical experience</span>
+            <span class="highlight-label">Years of clinical and performance experience</span>
           </div>
           <p class="highlight-personal">
-            Outside of coaching, Ryan enjoys spending time with his wife and three children, caring
-            for their two Labrador Retrievers, and pursuing his own athletic challenges — from trail
+            Outside the clinic, Ryan enjoys spending time with his wife and three children, caring
+            for their two Labrador Retrievers, and pursuing his own athletic challenges &mdash; from trail
             races and a Grand Canyon Rim-to-Rim-to-Rim crossing to HYROX competitions and improving
             his golf game.
           </p>
@@ -200,7 +201,7 @@ import finishPhoto from '../assets/Finishing Photo Hyrox 2025.jpg';
 
     .photo-main {
       aspect-ratio: 3 / 2;
-      object-position: center 30%;
+      object-position: center 45%;
     }
   }
 

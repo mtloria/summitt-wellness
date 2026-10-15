@@ -1,5 +1,9 @@
 ---
-import heroImg from '../assets/Hyrox 2025 Rowing Photo.jpg';
+import { getImage } from 'astro:assets';
+import heroSrc from '../assets/internal_rotation.jpg';
+import { BOOKING_URL } from '../config';
+
+const heroImg = await getImage({ src: heroSrc, width: 2000, format: 'webp' });
 ---
 
 <section class="hero" style={`background-image: url('${heroImg.src}')`} id="top">
@@ -8,20 +12,20 @@ import heroImg from '../assets/Hyrox 2025 Rowing Photo.jpg';
     <div class="hero-inner">
       <span class="hero-badge">PT &middot; DPT &middot; OCS &middot; CSCS &middot; TPI</span>
       <h1 class="hero-title">
-        REACH YOUR<br />SUMMIT.
+        MOVE BETTER.<br />FEEL BETTER.
       </h1>
       <p class="hero-subtitle">
-        Expert online coaching that bridges performance and physical therapy &mdash;
-        designed for people who want to move better, get stronger, and stay active for life.
+        Ryan Summitt is a Doctor of Physical Therapy who uses manual therapy and corrective
+        exercise to reduce pain and restore function &mdash; with one-on-one care at every visit.
       </p>
       <div class="hero-actions">
-        <button class="btn btn-gold quiz-trigger" id="hero-quiz-btn">
-          Take the Fit Quiz
+        <a href={BOOKING_URL} class="btn btn-gold">
+          Book Now
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9,18 15,12 9,6"></polyline>
           </svg>
-        </button>
-        <a href="#about" class="btn btn-outline-white">See How It Works</a>
+        </a>
+        <a href="#services" class="btn btn-outline-white">Explore Services</a>
       </div>
     </div>
   </div>
@@ -33,18 +37,12 @@ import heroImg from '../assets/Hyrox 2025 Rowing Photo.jpg';
   </a>
 </section>
 
-<script>
-  document.getElementById('hero-quiz-btn')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('open-quiz'));
-  });
-</script>
-
 <style>
   .hero {
     position: relative;
     min-height: 100svh;
     background-size: cover;
-    background-position: center 30%;
+    background-position: 70% top;
     background-repeat: no-repeat;
     display: flex;
     align-items: center;
