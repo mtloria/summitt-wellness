@@ -4,6 +4,8 @@ export const BOOKING_URL =
 
 export const CONTACT_EMAIL = 'Ryan@summittwellness.com';
 
+// Hidden until Ryan approves listing the number publicly.
+export const SHOW_PHONE = false;
 export const PHONE_DISPLAY = '(317) 440-4633';
 export const PHONE_HREF = 'tel:+13174404633';
 

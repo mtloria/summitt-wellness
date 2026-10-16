@@ -1,6 +1,6 @@
 ---
 import logoImg from '../assets/Horizontal Logo Transparent.png';
-import { BOOKING_URL, LOCATIONS, PHONE_DISPLAY, PHONE_HREF } from '../config';
+import { BOOKING_URL, LOCATIONS, PHONE_DISPLAY, PHONE_HREF, SHOW_PHONE } from '../config';
 
 const navLinks = [
   { label: 'About', href: '#about' },
@@ -47,7 +47,7 @@ const year = new Date().getFullYear();
 
       <div class="footer-contact">
         <p class="footer-nav-label">Get in Touch</p>
-        <a href={PHONE_HREF} class="footer-link footer-phone">{PHONE_DISPLAY}</a>
+        {SHOW_PHONE && <a href={PHONE_HREF} class="footer-link footer-phone">{PHONE_DISPLAY}</a>}
         <a href="mailto:ryan@summittwellness.com" class="footer-link footer-email">
           ryan@summittwellness.com
         </a>

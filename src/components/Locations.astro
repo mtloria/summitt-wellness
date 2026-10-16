@@ -1,5 +1,5 @@
 ---
-import { BOOKING_URL, LOCATIONS, PHONE_DISPLAY, PHONE_HREF } from '../config';
+import { BOOKING_URL, LOCATIONS, PHONE_DISPLAY, PHONE_HREF, SHOW_PHONE } from '../config';
 ---
 
 <section class="locations" id="locations">
@@ -43,9 +43,11 @@ import { BOOKING_URL, LOCATIONS, PHONE_DISPLAY, PHONE_HREF } from '../config';
           <polyline points="9,18 15,12 9,6"></polyline>
         </svg>
       </a>
-      <p class="locations-phone">
-        Questions? Call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
-      </p>
+      {SHOW_PHONE && (
+        <p class="locations-phone">
+          Questions? Call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
+        </p>
+      )}
     </div>
   </div>
 </section>
