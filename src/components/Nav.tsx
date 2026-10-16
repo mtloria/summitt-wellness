@@ -26,9 +26,9 @@ interface NavProps {
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
+  { label: 'Locations', href: '#locations' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Coaching', href: '#coaching' },
-  { label: 'Contact', href: '#contact' },
 ];
 
 function NavContent({ logoSrc, base = '' }: NavProps) {
@@ -111,6 +111,8 @@ function NavContent({ logoSrc, base = '' }: NavProps) {
               ))}
               <Button
                 href={BOOKING_URL}
+                target="_blank"
+                rel="noopener"
                 variant="contained"
                 color="secondary"
                 sx={{ ml: 2, py: 1.25, px: 3.5 }}
@@ -191,6 +193,8 @@ function NavContent({ logoSrc, base = '' }: NavProps) {
         <Box sx={{ px: 3, mt: 4 }}>
           <Button
             href={BOOKING_URL}
+            target="_blank"
+            rel="noopener"
             onClick={() => setMobileOpen(false)}
             variant="contained"
             color="secondary"

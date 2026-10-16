@@ -1,10 +1,11 @@
 ---
 import logoImg from '../assets/Horizontal Logo Transparent.png';
-import { BOOKING_URL } from '../config';
+import { BOOKING_URL, LOCATIONS, PHONE_DISPLAY, PHONE_HREF } from '../config';
 
 const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
+  { label: 'Locations', href: '#locations' },
   { label: 'FAQ', href: '#faq' },
   { label: 'Fitness Coaching', href: '#coaching' },
   { label: 'Book Now', href: BOOKING_URL },
@@ -32,7 +33,13 @@ const year = new Date().getFullYear();
         <ul>
           {navLinks.map((link) => (
             <li>
-              <a href={link.href} class="footer-link">{link.label}</a>
+              <a
+                href={link.href}
+                class="footer-link"
+                {...(link.href.startsWith('http') && { target: '_blank', rel: 'noopener' })}
+              >
+                {link.label}
+              </a>
             </li>
           ))}
         </ul>
@@ -40,9 +47,17 @@ const year = new Date().getFullYear();
 
       <div class="footer-contact">
         <p class="footer-nav-label">Get in Touch</p>
+        <a href={PHONE_HREF} class="footer-link footer-phone">{PHONE_DISPLAY}</a>
         <a href="mailto:ryan@summittwellness.com" class="footer-link footer-email">
           ryan@summittwellness.com
         </a>
+        {LOCATIONS.map((loc) => (
+          <address class="footer-address">
+            <span class="footer-address-city">{loc.city}</span>
+            {loc.street}<br />
+            {loc.locality}, {loc.region} {loc.postalCode}
+          </address>
+        ))}
         <div class="footer-creds">
           {['PT, DPT', 'OCS', 'CSCS', 'TPI'].map((c) => (
             <span class="footer-cred">{c}</span>
@@ -129,6 +144,30 @@ const year = new Date().getFullYear();
     display: block;
     margin-bottom: 20px;
     word-break: break-all;
+  }
+
+  .footer-phone {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .footer-address {
+    font-family: var(--f-body);
+    font-style: normal;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 14px;
+  }
+
+  .footer-address-city {
+    display: block;
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
   }
 
   .footer-creds {

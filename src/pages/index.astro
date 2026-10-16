@@ -9,6 +9,7 @@ import About from '../components/About.astro';
 // import WhatIncluded from '../components/WhatIncluded.astro';
 import Services from '../components/Services.astro';
 import HowItWorks from '../components/HowItWorks.astro';
+import Locations from '../components/Locations.astro';
 import FAQ from '../components/FAQ';
 import Coaching from '../components/Coaching.astro';
 import ContactCTA from '../components/ContactCTA.astro';
@@ -28,6 +29,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <About />
     <Services />
     <HowItWorks />
+    <Locations />
     <FAQ client:visible />
     <Coaching />
     <ContactCTA />

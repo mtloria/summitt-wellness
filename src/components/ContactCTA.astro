@@ -1,6 +1,6 @@
 ---
 import mountainImg from '../assets/switzerland_2048x2048.jpg';
-import { BOOKING_URL, CONTACT_EMAIL } from '../config';
+import { BOOKING_URL, CONTACT_EMAIL, PHONE_DISPLAY, PHONE_HREF } from '../config';
 ---
 
 <section
@@ -20,7 +20,7 @@ import { BOOKING_URL, CONTACT_EMAIL } from '../config';
         movement. Have a question first? Ryan is happy to help.
       </p>
       <div class="cta-actions">
-        <a href={BOOKING_URL} class="btn btn-gold">
+        <a href={BOOKING_URL} class="btn btn-gold" target="_blank" rel="noopener">
           Book Now
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9,18 15,12 9,6"></polyline>
@@ -30,6 +30,9 @@ import { BOOKING_URL, CONTACT_EMAIL } from '../config';
           Email Ryan Directly
         </a>
       </div>
+      <p class="cta-note">
+        Or call <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
+      </p>
     </div>
   </div>
 </section>
@@ -87,10 +90,17 @@ import { BOOKING_URL, CONTACT_EMAIL } from '../config';
   }
 
   .cta-note {
+    position: relative;
     font-family: var(--f-body);
-    font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.42);
-    letter-spacing: 0.04em;
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .cta-note a {
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 2px solid var(--c-secondary);
   }
 
   @media (max-width: 600px) {
