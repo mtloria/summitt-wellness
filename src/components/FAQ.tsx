@@ -23,7 +23,7 @@ type FAQItem = {
 const FAQS: FAQItem[] = [
   {
     q: 'Are you accepting new patients?',
-    a: 'Yes! Use the Book Now button and select “Initial Evaluation” to schedule your first visit.',
+    a: 'Yes! Use the Book Now button and select “Physical Therapy Evaluation” to schedule your first visit.',
   },
   {
     q: 'Do you accept insurance?',
@@ -55,8 +55,12 @@ const FAQS: FAQItem[] = [
     a: "Dry needling uses thin, sterile, single-use needles to target trigger points and tight bands of muscle. It can help decrease pain, reduce muscle tension, and improve movement. It's always used as one part of a broader treatment plan alongside manual therapy and exercise, and Ryan will talk through whether it's a good fit for you before using it.",
   },
   {
+    q: 'What is cupping?',
+    a: "Cupping uses suction cups placed on the skin to gently lift and decompress the underlying soft tissue. It can help ease muscle tension, reduce pain, and improve mobility. Like dry needling, it's used as one part of your treatment alongside other manual therapy and exercise when Ryan feels it will help.",
+  },
+  {
     q: 'How do I schedule?',
-    a: 'Scheduling is easy! Click the Book Now button and schedule yourself. If you\'re a new patient, please select “Initial Evaluation” in the scheduling system.',
+    a: 'Scheduling is easy! Click the Book Now button and schedule yourself. If you\'re a new patient, choose the location that works best for you, then select “Physical Therapy Evaluation.”',
   },
   {
     q: 'What is your cancellation policy?',
