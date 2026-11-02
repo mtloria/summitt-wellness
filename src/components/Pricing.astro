@@ -1,0 +1,328 @@
+---
+import { BOOKING_URL } from '../config';
+
+type PriceGroup = {
+  title: string;
+  label?: string;
+  wide?: boolean;
+  items: { name: string; detail: string; price?: string; savings?: string }[];
+  notes?: { label: string; text: string }[];
+};
+
+const groups: PriceGroup[] = [
+  {
+    title: 'Individual Sessions',
+    label: 'Physical Therapy',
+    items: [
+      { name: 'Initial Evaluation', detail: 'Initial PT assessment', price: '$175' },
+      { name: 'Standard Follow-Up', detail: '45-minute appointment', price: '$135' },
+      { name: 'Focused Follow-Up', detail: '30-minute appointment', price: '$90' },
+    ],
+  },
+  {
+    title: 'Prepaid Packages',
+    label: 'Physical Therapy',
+    items: [
+      { name: 'Standard Follow-Up Package', detail: 'Six 45-minute visits', price: '$750', savings: 'Save $60' },
+      { name: 'Focused Follow-Up Package', detail: 'Six 30-minute visits', price: '$500', savings: 'Save $40' },
+    ],
+    notes: [
+      { label: 'Package validity:', text: 'Packages expire 6 months from the date of purchase.' },
+      { label: 'Follow-up planning:', text: 'Appropriate follow-up frequency and appointment length will be discussed during the initial evaluation.' },
+    ],
+  },
+  {
+    title: 'Personal Training & Fitness Coaching',
+    wide: true,
+    items: [
+      { name: 'Initial Consultation', detail: 'Standard Initial Evaluation rate', price: '$175' },
+      { name: 'Ongoing Sessions', detail: 'Pricing is individually tailored to each client based on their needs and program.' },
+    ],
+  },
+];
+---
+
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header">
+      <span class="eyebrow">Pricing</span>
+      <h2 class="section-title pricing-title">
+        Physical Therapy &amp; Fitness Services
+      </h2>
+      <p class="pricing-sub">Session rates and prepaid packages</p>
+    </div>
+
+    <div class="pricing-grid">
+      {groups.map((group) => (
+        <article class:list={['price-card', { 'price-card-wide': group.wide }]}>
+          <div class="price-card-head">
+            {group.label && <span class="price-card-label">{group.label}</span>}
+            <h3 class="price-card-title">{group.title}</h3>
+          </div>
+
+          <div class="price-card-body">
+            <ul class="price-list">
+              {group.items.map((item) => (
+                <li class="price-row">
+                  <div class="price-info">
+                    <span class="price-name">{item.name}</span>
+                    <span class="price-detail">{item.detail}</span>
+                  </div>
+                  {item.price && (
+                    <div class="price-value">
+                      <span class="price-amount">{item.price}</span>
+                      {item.savings && <span class="price-savings">{item.savings}</span>}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {group.notes && (
+              <div class="price-card-notes">
+                {group.notes.map((note) => (
+                  <p class="price-card-note"><strong>{note.label}</strong> {note.text}</p>
+                ))}
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="pricing-cta">
+      <h3 class="pricing-cta-title">Ready to Get Started?</h3>
+      <p class="pricing-cta-sub">Schedule your initial consultation.</p>
+      <a href={BOOKING_URL} class="btn btn-gold" target="_blank" rel="noopener">
+        Book Now
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9,18 15,12 9,6"></polyline>
+        </svg>
+      </a>
+      <p class="pricing-note">All prices in USD. Six-session packages require prepayment.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    background-color: var(--c-bg);
+    padding: 100px 0;
+  }
+
+  .pricing-header {
+    max-width: 760px;
+    margin-bottom: 56px;
+  }
+
+  .pricing-title {
+    font-size: clamp(2.25rem, 4vw, 3rem);
+    margin-bottom: 18px;
+  }
+
+  .pricing-sub {
+    font-family: var(--f-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--c-text-muted);
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+
+  .price-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 12px;
+    padding: 32px 30px;
+    transition: box-shadow 0.22s ease, border-color 0.22s ease;
+  }
+
+  .price-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: rgba(192, 139, 62, 0.3);
+  }
+
+  .price-card-wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 54px;
+    align-items: center;
+  }
+
+  .price-card-head {
+    margin-bottom: 12px;
+  }
+
+  .price-card-wide .price-card-head {
+    margin-bottom: 0;
+  }
+
+  .price-card-label {
+    display: block;
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c-secondary-dark);
+    margin-bottom: 6px;
+  }
+
+  .price-card-title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--c-primary);
+    line-height: 1.1;
+  }
+
+  .price-list {
+    list-style: none;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--c-border);
+  }
+
+  .price-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .price-card-wide .price-row:first-child {
+    padding-top: 0;
+  }
+
+  .price-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .price-name {
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    color: var(--c-primary);
+    line-height: 1.3;
+  }
+
+  .price-detail {
+    font-family: var(--f-body);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--c-text-muted);
+  }
+
+  .price-value {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  .price-amount {
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 2rem;
+    color: var(--c-primary);
+    line-height: 1;
+  }
+
+  .price-savings {
+    font-family: var(--f-ui);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--c-secondary-dark);
+    background: rgba(192, 139, 62, 0.1);
+    border: 1px solid rgba(192, 139, 62, 0.2);
+    padding: 3px 8px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .price-card-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--c-border);
+  }
+
+  .price-card-note {
+    font-family: var(--f-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--c-text-muted);
+  }
+
+  .price-card-note strong {
+    font-weight: 600;
+    color: var(--c-primary);
+  }
+
+  .pricing-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .pricing-cta-title {
+    font-family: var(--f-display);
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--c-primary);
+    line-height: 1.1;
+  }
+
+  .pricing-cta-sub {
+    font-family: var(--f-body);
+    font-size: 1.0625rem;
+    color: var(--c-text-muted);
+    margin-bottom: 8px;
+  }
+
+  .pricing-note {
+    font-family: var(--f-body);
+    font-size: 0.875rem;
+    color: var(--c-text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .pricing-grid,
+    .price-card-wide {
+      grid-template-columns: 1fr;
+    }
+
+    .price-card-wide .price-row:first-child {
+      padding-top: 18px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pricing {
+      padding: 72px 0;
+    }
+
+    .price-card {
+      padding: 26px 22px;
+    }
+  }
+</style>

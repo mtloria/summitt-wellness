@@ -28,7 +28,7 @@ const FAQS: FAQItem[] = [
   {
     q: 'Do you accept insurance?',
     a: [
-      "Summitt Wellness is not contracted with any insurance companies, which means we're considered “out of network.” Payment is made directly at the time of your visit.",
+      "Summitt Wellness is not contracted with any insurance companies, which means we're considered “out of network.” Payment is made directly at the time of your visit, and six-session packages require prepayment.",
       "If you'd like to seek reimbursement, we can provide you with a superbill — a detailed receipt with the diagnosis and treatment codes your insurance company needs. You can submit it to your insurer for possible out-of-network reimbursement, though reimbursement is not guaranteed. We recommend calling your insurance company ahead of time to ask about your out-of-network physical therapy benefits.",
       "Please be advised that Summitt Wellness currently has “no relationship” with Medicare. As such, we are unable to bill for skilled physical therapy services.",
     ],
